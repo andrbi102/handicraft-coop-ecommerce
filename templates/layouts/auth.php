@@ -31,15 +31,7 @@ $brandMark = mb_substr($siteName, 0, 1, 'UTF-8') ?: 'ت';
     <div class="pa-auth-card">
         <a class="pa-auth-logo" href="/"><?= View::e($brandMark) ?></a>
 
-        <?php foreach (['success' => 'success', 'error' => 'danger', 'info' => 'info'] as $key => $kind): ?>
-            <?php $msg = trim((string) ($flash[$key] ?? '')); ?>
-            <?php if ($msg !== ''): ?>
-                <div class="pa-alert pa-alert-<?= $kind ?> pa-fs-sm">
-                    <span data-pa-icon="<?= $kind === 'success' ? 'check_circle' : ($kind === 'danger' ? 'x_circle' : 'info') ?>"></span>
-                    <div class="pa-alert-body"><?= View::e($msg) ?></div>
-                </div>
-            <?php endif; ?>
-        <?php endforeach; ?>
+        <?php include __DIR__ . '/../partials/flash.php'; ?>
 
         <?= $content ?>
     </div>

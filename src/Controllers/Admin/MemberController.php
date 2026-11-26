@@ -119,7 +119,8 @@ final class MemberController extends AdminController
         $v = new Validator(['full_name' => $fullName]);
         $v->required('full_name')->length('full_name', 3, 100);
         if ($v->fails()) {
-            $this->flash('error', 'نام عضو معتبر نیست.');
+                    $this->flashOld();
+$this->flash('error', 'نام عضو معتبر نیست.');$this->flash('error', 'نام عضو معتبر نیست.');
             return null;
         }
         return [

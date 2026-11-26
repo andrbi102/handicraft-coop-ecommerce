@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 /** @var array<string, mixed> $__data */
 
+use App\Support\Form;
+
 $settings = $__data['settings'] ?? [];
 ?>
 <div class="pa-page-header pa-anim-slide-up">
@@ -31,22 +33,22 @@ $settings = $__data['settings'] ?? [];
                     <div class="pa-form-row">
                         <div class="pa-form-group">
                             <label for="c-name">نام *</label>
-                            <input id="c-name" class="pa-input" type="text" name="name" data-pa-validate="required" data-pa-minlen="3" required>
+                            <input id="c-name" class="pa-input" type="text" name="name" data-pa-validate="required" data-pa-minlen="3" value="<?= Form::value(null, 'name') ?>" required>
                             <div class="pa-form-feedback"></div>
                         </div>
                         <div class="pa-form-group">
                             <label for="c-email">ایمیل *</label>
-                            <input id="c-email" class="pa-input" type="email" name="email" data-pa-validate="required" required>
+                            <input id="c-email" class="pa-input" type="email" name="email" data-pa-validate="required" value="<?= Form::value(null, 'email') ?>" required>
                             <div class="pa-form-feedback"></div>
                         </div>
                     </div>
                     <div class="pa-form-group">
                         <label for="c-subject">موضوع</label>
-                        <input id="c-subject" class="pa-input" type="text" name="subject">
+                        <input id="c-subject" class="pa-input" type="text" name="subject" value="<?= Form::value(null, 'subject') ?>">
                     </div>
                     <div class="pa-form-group">
                         <label for="c-message">پیام *</label>
-                        <textarea id="c-message" class="pa-textarea" name="message" rows="5" data-pa-validate="required" data-pa-minlen="10" required></textarea>
+                        <textarea id="c-message" class="pa-textarea" name="message" rows="5" data-pa-validate="required" data-pa-minlen="10" required><?= Form::value(null, 'message') ?></textarea>
                         <div class="pa-form-feedback"></div>
                     </div>
                     <button type="submit" class="pa-btn pa-btn-primary" data-pa-icon="envelope"> ارسال پیام</button>

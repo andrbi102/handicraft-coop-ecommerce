@@ -51,17 +51,7 @@ $theme = (string) ($settings['admin_theme'] ?? 'light');
         <div class="pa-main">
             <?php include __DIR__ . '/../partials/admin_navbar.php'; ?>
             <main class="pa-content" id="pa-main-content">
-                <?php // پیام‌های فلش ?>
-                <?php foreach (['success' => 'success', 'error' => 'danger', 'info' => 'info', 'warning' => 'warning'] as $key => $kind): ?>
-                    <?php $msg = trim((string) ($flash[$key] ?? '')); ?>
-                    <?php if ($msg !== ''): ?>
-                        <div class="pa-alert pa-alert-<?= $kind ?> pa-anim-slide-up">
-                            <span data-pa-icon="<?= $kind === 'success' ? 'check_circle' : ($kind === 'danger' ? 'x_circle' : 'info') ?>"></span>
-                            <div class="pa-alert-body"><?= View::e($msg) ?></div>
-                            <button class="pa-close" aria-label="بستن">&times;</button>
-                        </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+                <?php include __DIR__ . '/../partials/flash.php'; ?>
 
                 <?= $content ?>
 

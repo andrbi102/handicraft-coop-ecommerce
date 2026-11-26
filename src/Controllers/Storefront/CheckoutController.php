@@ -87,7 +87,8 @@ final class CheckoutController extends StorefrontController
           ->required('city')->length('city', 2, 60)
           ->required('postal_code')->length('postal_code', 5, 20);
         if ($v->fails()) {
-            $this->flash('error', 'لطفاً نشانی تحویل را کامل و معتبر وارد کنید.');
+                    $this->flashOld();
+$this->flash('error', 'لطفاً نشانی تحویل را کامل و معتبر وارد کنید.');$this->flash('error', 'لطفاً نشانی تحویل را کامل و معتبر وارد کنید.');
             $this->redirect('/checkout');
         }
 

@@ -107,7 +107,8 @@ final class ProductController extends AdminController
           ->required('category_id')->int('category_id', 1)
           ->required('price')->int('price', 0);
         if ($v->fails()) {
-            $this->flash('error', 'لطفاً نام، دسته‌بندی و قیمت را معتبر وارد کنید.');
+                    $this->flashOld();
+$this->flash('error', 'لطفاً نام، دسته‌بندی و قیمت را معتبر وارد کنید.');$this->flash('error', 'لطفاً نام، دسته‌بندی و قیمت را معتبر وارد کنید.');
             return null;
         }
         $slug = Slug::make($name);

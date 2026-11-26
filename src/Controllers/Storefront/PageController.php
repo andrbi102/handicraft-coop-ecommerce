@@ -41,7 +41,8 @@ final class PageController extends StorefrontController
           ->required('email')->email('email')
           ->required('message')->length('message', 10, 2000);
         if ($v->fails()) {
-            $this->flash('error', 'لطفاً فرم را معتبر پر کنید.');
+                    $this->flashOld();
+$this->flash('error', 'لطفاً فرم را معتبر پر کنید.');$this->flash('error', 'لطفاً فرم را معتبر پر کنید.');
             $this->redirect('/contact');
         }
         $this->c->get(ContactMessageModel::class)->create([

@@ -24,7 +24,7 @@ use App\Support\Form;
         <label for="r-name">نام و نام خانوادگی</label>
         <div class="pa-input-group">
             <span class="pa-input-addon" data-pa-icon="user"></span>
-            <input id="r-name" class="pa-input" type="text" name="name" data-pa-validate="required" data-pa-minlen="3" required autofocus>
+            <input id="r-name" class="pa-input" type="text" name="name" data-pa-validate="required" data-pa-minlen="3" value="<?= Form::value(null, 'name') ?>" required autofocus>
         </div>
         <div class="pa-form-feedback"></div>
     </div>
@@ -33,7 +33,7 @@ use App\Support\Form;
         <label for="r-email">ایمیل</label>
         <div class="pa-input-group">
             <span class="pa-input-addon" data-pa-icon="envelope"></span>
-            <input id="r-email" class="pa-input" type="email" name="email" data-pa-validate="required" required>
+            <input id="r-email" class="pa-input" type="email" name="email" data-pa-validate="required" value="<?= Form::value(null, 'email') ?>" required>
         </div>
         <div class="pa-form-feedback"></div>
     </div>
@@ -42,7 +42,7 @@ use App\Support\Form;
         <label for="r-phone">تلفن</label>
         <div class="pa-input-group">
             <span class="pa-input-addon" data-pa-icon="phone"></span>
-            <input id="r-phone" class="pa-input" type="tel" name="phone">
+            <input id="r-phone" class="pa-input" type="tel" name="phone" value="<?= Form::value(null, 'phone') ?>">
         </div>
     </div>
 

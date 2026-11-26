@@ -28,7 +28,7 @@ $siteName = $__data['siteName'];
         <label for="email">ایمیل</label>
         <div class="pa-input-group">
             <span class="pa-input-addon" data-pa-icon="envelope"></span>
-            <input id="email" class="pa-input" type="email" name="email" data-pa-validate="required" required autofocus>
+            <input id="email" class="pa-input" type="email" name="email" data-pa-validate="required" value="<?= Form::value(null, 'email') ?>" required autofocus>
         </div>
         <div class="pa-form-feedback"></div>
     </div>

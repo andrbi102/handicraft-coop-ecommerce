@@ -92,19 +92,13 @@ abstract class Controller
         Request::back();
     }
 
-    /** محتوای فرم قدیمی را برای refill بعد از خطای اعتبارسنجی نگه می‌دارد. */
-    protected function withOld(array $data): void
+    /**
+     * نگه‌داشتن ورودی‌های ارسالیِ کاربر (($_POST)) برای بازنمایش بعد از
+     * خطای اعتبارسنجی — قبل از redirect فراخوانی شود.
+     * کلیدهای حساس (رمز/توکن) در SecureSession::flashOld فیلتر می‌شوند.
+     */
+    protected function flashOld(): void
     {
-        SecureSession::flash('old', json_encode($data, JSON_UNESCAPED_UNICODE));
-    }
-
-    protected function old(string $key, string $default = ''): string
-    {
-        $raw = SecureSession::flash('old');
-        if ($raw === null) {
-            return $default;
-        }
-        $arr = json_decode((string) $raw, true);
-        return is_array($arr) && isset($arr[$key]) ? (string) $arr[$key] : $default;
+        SecureSession::flashOld($_POST);
     }
 }

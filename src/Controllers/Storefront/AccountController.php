@@ -64,7 +64,8 @@ final class AccountController extends StorefrontController
         $name = (string) Request::post('name', '');
         $phone = (string) Request::post('phone', '');
         if (mb_strlen($name) < 3) {
-            $this->flash('error', 'نام معتبر نیست.');
+                    $this->flashOld();
+$this->flash('error', 'نام معتبر نیست.');$this->flash('error', 'نام معتبر نیست.');
             $this->redirect('/account/profile');
         }
         $this->c->get(UserModel::class)->updateProfile((int) $user['id'], $name, $phone);
@@ -79,17 +80,20 @@ final class AccountController extends StorefrontController
         $new = (string) Request::post('new_password', '');
         $confirm = (string) Request::post('new_password_confirm', '');
         if (mb_strlen($new) < 8) {
-            $this->flash('error', 'رمز جدید باید حداقل ۸ نویسه باشد.');
+                    $this->flashOld();
+$this->flash('error', 'رمز جدید باید حداقل ۸ نویسه باشد.');$this->flash('error', 'رمز جدید باید حداقل ۸ نویسه باشد.');
             $this->redirect('/account/profile');
         }
         if ($new !== $confirm) {
-            $this->flash('error', 'رمز جدید و تکرار آن یکسان نیستند.');
+                    $this->flashOld();
+$this->flash('error', 'رمز جدید و تکرار آن یکسان نیستند.');$this->flash('error', 'رمز جدید و تکرار آن یکسان نیستند.');
             $this->redirect('/account/profile');
         }
         $users = $this->c->get(UserModel::class);
         $row = $users->findByEmail((string) $user['email']);
         if ($row === null || !Crypto::passwordVerify($current, (string) $row['password_hash'])) {
-            $this->flash('error', 'رمز فعلی نادرست است.');
+                    $this->flashOld();
+$this->flash('error', 'رمز فعلی نادرست است.');$this->flash('error', 'رمز فعلی نادرست است.');
             $this->redirect('/account/profile');
         }
         $users->updatePassword((int) $user['id'], Crypto::passwordHash($new));

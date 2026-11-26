@@ -44,16 +44,7 @@ $path = (string) $path;
     <?php include __DIR__ . '/../partials/store_nav.php'; ?>
 
     <main class="pa-site-main" id="pa-main-content">
-        <?php foreach (['success' => 'success', 'error' => 'danger', 'info' => 'info', 'warning' => 'warning'] as $key => $kind): ?>
-            <?php $msg = trim((string) ($flash[$key] ?? '')); ?>
-            <?php if ($msg !== ''): ?>
-                <div class="pa-alert pa-alert-<?= $kind ?>">
-                    <span data-pa-icon="<?= $kind === 'success' ? 'check_circle' : ($kind === 'danger' ? 'x_circle' : 'info') ?>"></span>
-                    <div class="pa-alert-body"><?= View::e($msg) ?></div>
-                    <button class="pa-close" aria-label="بستن">&times;</button>
-                </div>
-            <?php endif; ?>
-        <?php endforeach; ?>
+        <?php include __DIR__ . '/../partials/flash.php'; ?>
 
         <?= $content ?>
     </main>

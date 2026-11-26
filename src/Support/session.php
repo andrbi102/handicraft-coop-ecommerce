@@ -75,6 +75,48 @@ final class SecureSession
         return $value;
     }
 
+    /**
+     * ذخیرهٔ ورودی‌های ارسالیِ کاربر برای بازنمایش بعد از خطای اعتبارسنجی.
+     * کلیدهای حساس (رمز و توکن) هرگز ذخیره نمی‌شوند.
+     *
+     * @param array<string, mixed> $input عموماً $_POST
+     */
+    public static function flashOld(array $input): void
+    {
+        self::start();
+        $old = [];
+        foreach ($input as $k => $v) {
+            if (is_string($k) && is_scalar($v) && !str_starts_with($k, '_') && !preg_match('/password|csrf|token/i', $k)) {
+                $old[$k] = (string) $v;
+            }
+        }
+        $_SESSION['_old'] = $old;
+    }
+
+    /**
+     * خواندن یک‌بارمصرفِ ورودی قدیمی یک فیلد (بعد از خواندن پاک می‌شود).
+     */
+    public static function old(string $key): ?string
+    {
+        self::start();
+        if (!isset($_SESSION['_old'][$key])) {
+            return null;
+        }
+        $value = (string) $_SESSION['_old'][$key];
+        unset($_SESSION['_old'][$key]);
+
+        return $value;
+    }
+
+    /**
+     * پاک‌کردن ورودی‌های قدیری (پس از رندر موفق فرم).
+     */
+    public static function clearOld(): void
+    {
+        self::start();
+        unset($_SESSION['_old']);
+    }
+
     public static function destroy(): void
     {
         self::start();

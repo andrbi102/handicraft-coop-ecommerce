@@ -39,14 +39,16 @@ final class AuthController extends StorefrontController
         $v = new Validator(['email' => $email, 'password' => $password]);
         $v->required('email')->email('email')->required('password')->length('password', 1, 100);
         if ($v->fails()) {
-            $this->flash('error', 'اطلاعات واردشده معتبر نیست.');
+                    $this->flashOld();
+$this->flash('error', 'اطلاعات واردشده معتبر نیست.');$this->flash('error', 'اطلاعات واردشده معتبر نیست.');
             $this->redirect('/login');
         }
         /** @var Auth $auth */
         $auth = $ctx['auth'];
         if (!$auth->attempt($email, $password)) {
             // پیام یکسان برای هر دو حالت — جلوگیری از کشف کاربر موجود
-            $this->flash('error', 'ایمیل یا رمز عبور نادرست است.');
+                    $this->flashOld();
+$this->flash('error', 'ایمیل یا رمز عبور نادرست است.');$this->flash('error', 'ایمیل یا رمز عبور نادرست است.');
             $this->redirect('/login');
         }
         $this->flash('success', 'خوش آمدید.');
@@ -75,16 +77,19 @@ final class AuthController extends StorefrontController
           ->required('email')->email('email')
           ->required('password')->length('password', 8, 100);
         if ($v->fails()) {
-            $this->flash('error', 'لطفاً همه فیلدها را معتبر پر کنید (رمز حداقل ۸ نویسه).');
+                    $this->flashOld();
+$this->flash('error', 'لطفاً همه فیلدها را معتبر پر کنید (رمز حداقل ۸ نویسه).');$this->flash('error', 'لطفاً همه فیلدها را معتبر پر کنید (رمز حداقل ۸ نویسه).');
             $this->redirect('/register');
         }
         if ($password !== $confirm) {
-            $this->flash('error', 'رمز عبور و تکرار آن یکسان نیستند.');
+                    $this->flashOld();
+$this->flash('error', 'رمز عبور و تکرار آن یکسان نیستند.');$this->flash('error', 'رمز عبور و تکرار آن یکسان نیستند.');
             $this->redirect('/register');
         }
         $users = $this->c->get(UserModel::class);
         if ($users->findByEmail($email) !== null) {
-            $this->flash('error', 'این ایمیل قبلاً ثبت شده است.');
+                    $this->flashOld();
+$this->flash('error', 'این ایمیل قبلاً ثبت شده است.');$this->flash('error', 'این ایمیل قبلاً ثبت شده است.');
             $this->redirect('/register');
         }
         $id = $users->create([

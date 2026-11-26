@@ -84,7 +84,8 @@ final class CouponController extends AdminController
         $v->required('code')->length('code', 3, 30)
           ->required('value')->int('value', 1);
         if ($v->fails()) {
-            $this->flash('error', 'کد و مقدار تخفیف معتبر نیستند.');
+                    $this->flashOld();
+$this->flash('error', 'کد و مقدار تخفیف معتبر نیستند.');$this->flash('error', 'کد و مقدار تخفیف معتبر نیستند.');
             return null;
         }
         return [

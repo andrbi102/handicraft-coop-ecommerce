@@ -34,7 +34,8 @@ final class CategoryController extends AdminController
         $v = new Validator(['name' => $name]);
         $v->required('name')->length('name', 2, 80);
         if ($v->fails()) {
-            $this->flash('error', 'نام دسته معتبر نیست.');
+                    $this->flashOld();
+$this->flash('error', 'نام دسته معتبر نیست.');$this->flash('error', 'نام دسته معتبر نیست.');
             $this->redirect('/admin/categories');
         }
         $slug = Slug::make($name);

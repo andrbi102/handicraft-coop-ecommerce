@@ -56,16 +56,16 @@ $user = $__data['user'];
                     </div>
                     <div class="pa-form-group">
                         <label for="ch-addr">نشانی *</label>
-                        <textarea id="ch-addr" class="pa-textarea" name="address" rows="2" data-pa-validate="required" data-pa-minlen="5" maxlength="300" required></textarea>
+                        <textarea id="ch-addr" class="pa-textarea" name="address" rows="2" data-pa-validate="required" data-pa-minlen="5" maxlength="300" required><?= Form::value(null, 'address') ?></textarea>
                     </div>
                     <div class="pa-form-row">
                         <div class="pa-form-group">
                             <label for="ch-city">شهر *</label>
-                            <input id="ch-city" class="pa-input" type="text" name="city" data-pa-validate="required" required>
+                            <input id="ch-city" class="pa-input" type="text" name="city" data-pa-validate="required" value="<?= Form::value(null, 'city') ?>" required>
                         </div>
                         <div class="pa-form-group">
                             <label for="ch-postal">کد پستی *</label>
-                            <input id="ch-postal" class="pa-input" type="text" name="postal_code" data-pa-validate="required" data-pa-minlen="5" required>
+                            <input id="ch-postal" class="pa-input" type="text" name="postal_code" data-pa-validate="required" data-pa-minlen="5" value="<?= Form::value(null, 'postal_code') ?>" required>
                         </div>
                     </div>
                     <div class="pa-form-group">
