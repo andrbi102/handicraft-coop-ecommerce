@@ -25,7 +25,7 @@ $joinYear = mb_substr((string) ($member['joined_at'] ?? ''), 0, 4, 'UTF-8');
 
 <div class="pa-card pa-mb-2">
     <div class="pa-card-body pa-d-flex pa-gap-2 pa-align-center" style="flex-wrap:wrap">
-        <div class="pa-product-thumb" style="background:linear-gradient(135deg,#6a4c93,#1982c4);display:grid;place-items:center;color:#fff;width:96px;height:96px;border-radius:50%;flex-shrink:0">
+        <div class="pa-product-thumb" style="width:96px;height:96px;border-radius:50%;flex-shrink:0">
             <span data-pa-icon="users_alt" data-pa-icon-size="48"></span>
         </div>
         <div style="flex:1;min-width:200px">

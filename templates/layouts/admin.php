@@ -46,6 +46,7 @@ $theme = (string) ($settings['admin_theme'] ?? 'light');
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="stylesheet" href="/assets/padminlte/padminlte.css">
     <link rel="stylesheet" href="/assets/padminlte/coop-overrides.css">
+    <link rel="stylesheet" href="/assets/padminlte/digikala-theme.css">
 </head>
 <body>
     <a class="pa-skip-link" href="#pa-main-content">پرش به محتوا</a>

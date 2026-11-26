@@ -18,16 +18,6 @@ use App\Core\Money;
  */
 final class Cards
 {
-    /** طیف رنگی برای تصویرسازی تصادفی (CSS gradient). */
-    private const GRADIENTS = [
-        ['#6a4c93', '#1982c4'],
-        ['#1982c4', '#8ac926'],
-        ['#ff595e', '#ffca3a'],
-        ['#ffca3a', '#8ac926'],
-        ['#6a4c93', '#ff595e'],
-        ['#1982c4', '#6a4c93'],
-    ];
-
     /**
      * @param array<string, mixed> $p
      * @param callable(int): string $money
@@ -40,15 +30,14 @@ final class Cards
         $stock = (int) $p['stock'];
         $pid = (int) $p['id'];
 
-        $grad = self::GRADIENTS[crc32((string) $pid) % count(self::GRADIENTS)];
         $csrfToken = \Csrf::token();
 
-        // نشان موجودی
+        // نشان موجودی (digikala-style badge)
         if ($stock <= 0) {
-            $badge = '<span class="pa-product-badge pa-discount" style="background:#dc3545">ناموجود</span>';
+            $badge = '<span class="pa-product-badge pa-discount">ناموجود</span>';
             $disabled = 'disabled';
         } elseif ($stock <= 3) {
-            $badge = '<span class="pa-product-badge pa-discount">موجودی کم</span>';
+            $badge = '<span class="pa-product-badge">موجودی کم</span>';
             $disabled = '';
         } else {
             $badge = '';
@@ -58,8 +47,8 @@ final class Cards
         return <<<HTML
 <div class="pa-col-4">
     <div class="pa-product-card pa-hover-lift">
-        <div class="pa-product-thumb" style="background:linear-gradient(135deg,{$grad[0]},{$grad[1]});display:grid;place-items:center;color:#fff">
-            <a href="/product/{$slug}" style="display:grid;place-items:center;width:100%;height:100%;color:inherit">
+        <div class="pa-product-thumb">
+            <a href="/product/{$slug}" class="pa-product-thumb-link">
                 <span data-pa-icon="package_alt" data-pa-icon-size="56"></span>
             </a>
             {$badge}
@@ -88,13 +77,12 @@ HTML;
         $craft = htmlspecialchars((string) ($m['craft'] ?? ''), ENT_QUOTES, 'UTF-8');
         $region = htmlspecialchars((string) ($m['region'] ?? ''), ENT_QUOTES, 'UTF-8');
         $id = (int) $m['id'];
-        $grad = self::GRADIENTS[crc32((string) $id) % count(self::GRADIENTS)];
 
         return <<<HTML
 <div class="pa-col-3">
     <div class="pa-product-card pa-hover-lift">
-        <div class="pa-product-thumb" style="background:linear-gradient(135deg,{$grad[0]},{$grad[1]});display:grid;place-items:center;color:#fff">
-            <a href="/member/{$id}" style="display:grid;place-items:center;width:100%;height:100%;color:inherit">
+        <div class="pa-product-thumb">
+            <a href="/member/{$id}" class="pa-product-thumb-link">
                 <span data-pa-icon="users_alt" data-pa-icon-size="56"></span>
             </a>
         </div>

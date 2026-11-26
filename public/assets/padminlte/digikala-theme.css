@@ -1,0 +1,679 @@
+/* =============================================================
+   Digikala-inspired theme layer for PAdminLTE
+   ---------------------------------------------------------------
+   Applied on top of padminlte.css + coop-overrides.css.
+   Replicates digikala's public design language (layout patterns,
+   component shapes, color system, typography) using the co-op's
+   OWN brand name and copy. Proprietary digikala assets (logo,
+   photos, marketing copy) are NOT copied — image areas use
+   neutral placeholders, per Replica skill Rule 5 (ownership).
+
+   Reference: https://www.digikala.com/ (captured 2026-11-26)
+   Note: live capture returned HTTP 403 (anti-bot); this theme is
+   a faithful manual rebuild from digikala's documented public
+   design system.
+   ============================================================= */
+
+/* ۰) Vazirmatn (digikala's typeface, OFL) — self-hosted */
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('/assets/fonts/Vazirmatn-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('/assets/fonts/Vazirmatn-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('/assets/fonts/Vazirmatn-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('/assets/fonts/Vazirmatn-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ۱) Design tokens → digikala palette */
+:root {
+    --pa-primary:        #ef4056;   /* digikala red */
+    --pa-primary-dark:   #d6384a;
+    --pa-primary-rgb:    239, 64, 86;
+    --pa-secondary:      #19bfd3;
+    --pa-success:        #4cb950;
+    --pa-info:           #19bfd3;
+    --pa-warning:        #f9a825;
+    --pa-danger:         #ef4056;
+    --pa-light:          #f0f0f1;
+    --pa-dark:           #1a1a1a;
+
+    --pa-primary-soft:   #fce8eb;
+    --pa-success-soft:   #e6f4e7;
+    --pa-info-soft:      #e3f7fa;
+    --pa-warning-soft:   #fef5e0;
+    --pa-danger-soft:    #fce8eb;
+
+    --pa-bg:             #f0f0f1;   /* digikala page gray */
+    --pa-surface:        #ffffff;
+    --pa-border:         #e0e0e3;
+    --pa-text:           #1a1a1a;
+    --pa-text-muted:     #81858b;
+    --pa-text-soft:      #b6b9bd;
+
+    --pa-sidebar-bg:     #1a1a1a;
+    --pa-sidebar-text:   #c2c7d0;
+    --pa-sidebar-link:   #e0e0e3;
+    --pa-sidebar-hover:  #2a2a2a;
+    --pa-sidebar-active: #ef4056;
+
+    --pa-header-bg:      #ffffff;
+    --pa-header-text:    #1a1a1a;
+
+    --pa-shadow:         0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --pa-shadow-lg:      0 4px 16px rgba(0,0,0,.08);
+    --pa-radius:         8px;
+    --pa-radius-lg:      16px;
+    --pa-transition:     0.2s ease;
+
+    --pa-font-family:    'Vazirmatn', 'Source Sans 3', -apple-system, 'Segoe UI', Tahoma, sans-serif;
+    --pa-font-size:      14px;
+    --pa-line-height:    1.7;
+}
+
+/* ۲) Base */
+html { font-size: 14px; }
+body {
+    font-family: var(--pa-font-family);
+    background: var(--pa-bg);
+    color: var(--pa-text);
+    line-height: var(--pa-line-height);
+    -webkit-font-smoothing: antialiased;
+}
+a { color: var(--pa-primary); text-decoration: none; transition: color var(--pa-transition); }
+a:hover { color: var(--pa-primary-dark); }
+h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.4; color: var(--pa-text); }
+.pa-fs-sm { font-size: .85rem; }
+.pa-text-muted { color: var(--pa-text-muted) !important; }
+
+/* ۳) Buttons → digikala */
+.pa-btn {
+    font-family: inherit;
+    font-weight: 500;
+    font-size: .95rem;
+    line-height: 1.6;
+    padding: .6rem 1.1rem;
+    border-radius: var(--pa-radius);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all var(--pa-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    justify-content: center;
+}
+.pa-btn:focus-visible { outline: 2px solid var(--pa-primary); outline-offset: 2px; }
+.pa-btn-primary {
+    background: var(--pa-primary);
+    color: #fff;
+    border-color: var(--pa-primary);
+}
+.pa-btn-primary:hover { background: var(--pa-primary-dark); border-color: var(--pa-primary-dark); color: #fff; }
+.pa-btn-outline {
+    background: #fff;
+    color: var(--pa-text);
+    border-color: var(--pa-border);
+}
+.pa-btn-outline:hover { border-color: var(--pa-primary); color: var(--pa-primary); }
+.pa-btn-danger { background: var(--pa-danger); color: #fff; border-color: var(--pa-danger); }
+.pa-btn-danger:hover { background: var(--pa-primary-dark); color: #fff; }
+.pa-btn-success { background: var(--pa-success); color: #fff; border-color: var(--pa-success); }
+.pa-btn-light { background: #fff; color: var(--pa-text); }
+.pa-btn-ghost { background: transparent; color: var(--pa-text-muted); }
+.pa-btn-ghost:hover { color: var(--pa-primary); background: var(--pa-primary-soft); }
+.pa-btn-lg { padding: .8rem 1.6rem; font-size: 1.05rem; }
+.pa-btn-sm { padding: .4rem .8rem; font-size: .85rem; }
+.pa-btn-block { width: 100%; }
+.pa-btn-outline-light { background: transparent; color: #fff; border-color: rgba(255,255,255,.7); }
+.pa-btn-outline-light:hover { background: rgba(255,255,255,.12); color: #fff; }
+.pa-icon-btn {
+    background: transparent;
+    border: 0;
+    color: var(--pa-text-muted);
+    border-radius: var(--pa-radius);
+    padding: .5rem;
+    cursor: pointer;
+    transition: all var(--pa-transition);
+}
+.pa-icon-btn:hover { background: var(--pa-primary-soft); color: var(--pa-primary); }
+
+/* ۴) Cards → digikala white card */
+.pa-card {
+    background: var(--pa-surface);
+    border: 1px solid var(--pa-border);
+    border-radius: var(--pa-radius-lg);
+    box-shadow: var(--pa-shadow);
+    overflow: hidden;
+}
+.pa-card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--pa-border);
+    background: var(--pa-surface);
+}
+.pa-card-header h3, .pa-card-header h2 { font-size: 1.05rem; margin: 0; }
+.pa-card-body { padding: 1.25rem; }
+.pa-hover-lift:hover { box-shadow: var(--pa-shadow-lg); transform: translateY(-2px); }
+
+/* ۵) Inputs → digikala gray-bg fields */
+.pa-input, input[type="text"], input[type="email"], input[type="password"],
+input[type="tel"], input[type="number"], input[type="search"], textarea, select {
+    font-family: inherit;
+    font-size: .95rem;
+    padding: .7rem .9rem;
+    border: 1px solid var(--pa-border);
+    border-radius: var(--pa-radius);
+    background: #fff;
+    color: var(--pa-text);
+    transition: border-color var(--pa-transition), box-shadow var(--pa-transition);
+    width: 100%;
+}
+.pa-input:focus, input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--pa-primary);
+    box-shadow: 0 0 0 2px rgba(var(--pa-primary-rgb), .15);
+}
+.pa-input-group {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--pa-border);
+    border-radius: var(--pa-radius);
+    background: #fff;
+    overflow: hidden;
+}
+.pa-input-group .pa-input { border: 0; border-radius: 0; }
+.pa-input-group .pa-input:focus { box-shadow: none; }
+.pa-input-addon {
+    display: grid;
+    place-items: center;
+    padding: 0 .7rem;
+    background: #fafafa;
+    color: var(--pa-text-muted);
+    border-inline-start: 1px solid var(--pa-border);
+}
+.pa-input-group:has(.pa-input:focus) { border-color: var(--pa-primary); box-shadow: 0 0 0 2px rgba(var(--pa-primary-rgb),.15); }
+.pa-hint { font-size: .8rem; color: var(--pa-text-muted); margin-top: .35rem; }
+.pa-label, label { font-size: .9rem; color: var(--pa-text); font-weight: 500; margin-bottom: .3rem; display: block; }
+
+/* ۶) Badges & alerts */
+.pa-badge, .pa-product-badge {
+    font-size: .72rem;
+    font-weight: 600;
+    padding: .15rem .5rem;
+    border-radius: var(--pa-radius);
+    background: var(--pa-primary-soft);
+    color: var(--pa-primary);
+}
+.pa-product-badge.pa-discount {
+    background: var(--pa-danger);
+    color: #fff;
+    border-radius: var(--pa-radius);
+}
+.pa-alert {
+    border-radius: var(--pa-radius);
+    padding: .9rem 1.1rem;
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
+    font-size: .92rem;
+    border: 1px solid transparent;
+}
+.pa-alert-success { background: var(--pa-success-soft); color: #1e6b22; border-color: #c8e6c9; }
+.pa-alert-danger  { background: var(--pa-danger-soft); color: #9c1a2a; border-color: #f5c6cb; }
+.pa-alert-info    { background: var(--pa-info-soft); color: #0a6b7a; border-color: #b8eef3; }
+.pa-alert-warning { background: var(--pa-warning-soft); color: #8a6200; border-color: #fde9b8; }
+
+/* ۷) Tables */
+.pa-table, table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .9rem;
+}
+.pa-table th, table th {
+    background: #fafafa;
+    color: var(--pa-text-muted);
+    font-weight: 600;
+    text-align: start;
+    padding: .75rem 1rem;
+    border-bottom: 1px solid var(--pa-border);
+    white-space: nowrap;
+}
+.pa-table td, table td {
+    padding: .8rem 1rem;
+    border-bottom: 1px solid var(--pa-border);
+    color: var(--pa-text);
+    vertical-align: middle;
+}
+.pa-table tr:hover td, tbody tr:hover td { background: #fafafa; }
+.pa-table-wrap { overflow-x: auto; border-radius: var(--pa-radius-lg); border: 1px solid var(--pa-border); background: #fff; }
+
+/* ۸) Site header → digikala */
+.pa-site-nav {
+    background: var(--pa-header-bg);
+    border-bottom: 1px solid var(--pa-border);
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.pa-site-nav-in {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 64px;
+}
+.pa-site-brand {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--pa-primary);
+    white-space: nowrap;
+}
+.pa-site-brand:hover { color: var(--pa-primary-dark); }
+.pa-brand-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--pa-primary);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 1rem;
+}
+.pa-site-links { display: flex; gap: .25rem; align-items: center; }
+.pa-site-links a {
+    color: var(--pa-text);
+    font-size: .9rem;
+    font-weight: 500;
+    padding: .5rem .7rem;
+    border-radius: var(--pa-radius);
+    transition: all var(--pa-transition);
+}
+.pa-site-links a:hover { background: var(--pa-primary-soft); color: var(--pa-primary); }
+.pa-site-links a.is-active { color: var(--pa-primary); font-weight: 700; }
+
+.pa-site-search {
+    flex: 1;
+    max-width: 480px;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    background: var(--pa-bg);
+    border: 1px solid var(--pa-border);
+    border-radius: var(--pa-radius);
+    padding: .35rem .8rem;
+    transition: border-color var(--pa-transition), box-shadow var(--pa-transition);
+}
+.pa-site-search:focus-within { border-color: var(--pa-primary); box-shadow: 0 0 0 2px rgba(var(--pa-primary-rgb),.15); background: #fff; }
+.pa-site-search input {
+    border: 0;
+    background: transparent;
+    outline: none;
+    padding: .35rem 0;
+    font-size: .9rem;
+    flex: 1;
+    width: 100%;
+}
+.pa-site-search input:focus { box-shadow: none; border: 0; }
+.pa-site-search [data-pa-icon] { color: var(--pa-text-muted); flex-shrink: 0; }
+
+.pa-site-actions { display: flex; align-items: center; gap: .4rem; margin-inline-start: auto; }
+.pa-site-cart {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--pa-radius);
+    color: var(--pa-text);
+    transition: all var(--pa-transition);
+}
+.pa-site-cart:hover { background: var(--pa-primary-soft); color: var(--pa-primary); }
+.pa-site-cart-badge {
+    position: absolute;
+    top: 2px;
+    inset-inline-start: 2px;
+    background: var(--pa-primary);
+    color: #fff;
+    font-size: .68rem;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    padding: 0 4px;
+}
+.pa-user-widget {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    padding: .25rem .5rem;
+    border-radius: var(--pa-radius);
+    transition: background var(--pa-transition);
+}
+.pa-user-widget:hover { background: var(--pa-bg); }
+.pa-avatar {
+    background: var(--pa-primary-soft);
+    color: var(--pa-primary);
+    font-weight: 700;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+}
+.pa-avatar-sm { width: 32px; height: 32px; font-size: .85rem; }
+.pa-site-burger { display: none; }
+
+.pa-site-subbar {
+    background: var(--pa-surface);
+    border-bottom: 1px solid var(--pa-border);
+}
+.pa-site-subbar .pa-site-nav-in { height: 44px; gap: .35rem; overflow-x: auto; scrollbar-width: none; }
+.pa-site-subbar .pa-site-nav-in::-webkit-scrollbar { display: none; }
+.pa-site-subbar a {
+    color: var(--pa-text-muted);
+    font-size: .85rem;
+    font-weight: 500;
+    padding: .35rem .7rem;
+    border-radius: var(--pa-radius);
+    white-space: nowrap;
+    transition: all var(--pa-transition);
+}
+.pa-site-subbar a:hover { color: var(--pa-primary); background: var(--pa-primary-soft); }
+.pa-site-subbar a.is-active { color: var(--pa-primary); font-weight: 700; }
+
+/* ۹) Site footer → digikala */
+.pa-site-footer {
+    background: var(--pa-surface);
+    border-top: 1px solid var(--pa-border);
+    margin-top: 3rem;
+    padding: 2.5rem 0 1.25rem;
+}
+.pa-site-footer-in { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+.pa-site-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+.pa-site-footer-grid h4 { font-size: 1rem; margin-bottom: 1rem; color: var(--pa-text); }
+.pa-site-footer-links { display: flex; flex-direction: column; gap: .6rem; }
+.pa-site-footer-links a, .pa-site-footer-links span { color: var(--pa-text-muted); font-size: .88rem; }
+.pa-site-footer-links a:hover { color: var(--pa-primary); }
+.pa-site-footer-bar {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--pa-border);
+    color: var(--pa-text-muted);
+    font-size: .82rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    justify-content: space-between;
+}
+@media (max-width: 768px) {
+    .pa-site-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+}
+@media (max-width: 480px) {
+    .pa-site-footer-grid { grid-template-columns: 1fr; }
+}
+
+/* ۱۰) Product card → digikala */
+.pa-product-card {
+    background: var(--pa-surface);
+    border: 1px solid var(--pa-border);
+    border-radius: var(--pa-radius-lg);
+    box-shadow: var(--pa-shadow);
+    overflow: hidden;
+    transition: box-shadow var(--pa-transition), transform var(--pa-transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.pa-product-card:hover { box-shadow: var(--pa-shadow-lg); }
+.pa-product-thumb {
+    background: #fafafa !important;
+    display: grid;
+    place-items: center;
+    position: relative;
+    color: var(--pa-text-soft) !important;
+}
+.pa-product-card .pa-product-thumb {
+    aspect-ratio: 1 / 1;
+    border-bottom: 1px solid var(--pa-border);
+}
+.pa-product-thumb [data-pa-icon] { color: var(--pa-text-soft); }
+.pa-product-thumb-link {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+}
+.pa-product-thumb .pa-product-badge {
+    position: absolute;
+    top: .6rem;
+    inset-inline-start: .6rem;
+}
+.pa-product-body {
+    padding: .75rem .85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    flex: 1;
+}
+.pa-product-name {
+    font-size: .88rem;
+    font-weight: 400;
+    line-height: 1.6;
+    margin: 0;
+    color: var(--pa-text);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.8em;
+}
+.pa-product-name a { color: var(--pa-text); }
+.pa-product-name a:hover { color: var(--pa-primary); }
+.pa-product-price {
+    display: flex;
+    align-items: baseline;
+    gap: .4rem;
+    margin-top: auto;
+}
+.pa-product-price .pa-now {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--pa-text);
+}
+.pa-product-price .pa-old {
+    font-size: .8rem;
+    color: var(--pa-text-soft);
+    text-decoration: line-through;
+}
+.pa-product-card .pa-btn { width: 100%; }
+
+/* ۱۱) Hero → digikala-style banner */
+.pa-hero {
+    background: linear-gradient(135deg, var(--pa-primary), var(--pa-primary-dark)) !important;
+    color: #fff !important;
+    border-radius: var(--pa-radius-lg) !important;
+    padding: 2.5rem 2rem !important;
+    margin-bottom: 1.5rem !important;
+    box-shadow: var(--pa-shadow);
+}
+.pa-hero h1 { color: #fff !important; font-weight: 900 !important; }
+.pa-hero p { color: rgba(255,255,255,.92) !important; }
+.pa-hero .pa-btn-light { background: #fff; color: var(--pa-primary); font-weight: 700; }
+.pa-hero .pa-btn-light:hover { color: var(--pa-primary-dark); }
+.pa-hero .pa-btn-outline-light:hover { background: rgba(255,255,255,.15); }
+
+/* ۱۲) Row / grid → digikala product rail */
+.pa-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+@media (max-width: 1024px) { .pa-row { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px)  { .pa-row { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px)  { .pa-row { grid-template-columns: repeat(2, 1fr); gap: .6rem; } }
+.pa-col-4 { width: auto; }   /* override fixed col so grid drives layout */
+
+/* section heading row */
+.pa-d-flex.pa-justify-between.pa-align-center h2 { font-size: 1.15rem; font-weight: 700; }
+
+/* ۱۳) Pagination */
+.pa-pagination { display: flex; gap: .25rem; flex-wrap: wrap; }
+.pa-pagination a, .pa-pagination span {
+    min-width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--pa-border);
+    border-radius: var(--pa-radius);
+    padding: 0 .5rem;
+    font-size: .88rem;
+    color: var(--pa-text);
+    background: #fff;
+}
+.pa-pagination a:hover { border-color: var(--pa-primary); color: var(--pa-primary); }
+.pa-pagination .is-active, .pa-pagination span[aria-current] {
+    background: var(--pa-primary);
+    color: #fff;
+    border-color: var(--pa-primary);
+}
+
+/* ۱۴) Dropdown */
+.pa-dropdown-menu {
+    background: #fff;
+    border: 1px solid var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-lg);
+    min-width: 220px;
+    padding: .35rem;
+}
+.pa-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .6rem .75rem;
+    border-radius: var(--pa-radius);
+    color: var(--pa-text);
+    font-size: .9rem;
+    transition: background var(--pa-transition);
+    width: 100%;
+    text-align: start;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+.pa-dropdown-item:hover { background: var(--pa-primary-soft); color: var(--pa-primary); }
+.pa-dropdown-divider { height: 1px; background: var(--pa-border); margin: .35rem 0; }
+
+/* ۱۵) Auth page */
+.pa-auth-card {
+    background: #fff;
+    border: 1px solid var(--pa-border);
+    border-radius: var(--pa-radius-lg);
+    box-shadow: var(--pa-shadow-lg);
+    max-width: 440px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+.pa-auth-card h1 { font-size: 1.4rem; font-weight: 900; }
+
+/* ۱۶) Breadcrumb */
+.pa-breadcrumb {
+    font-size: .82rem;
+    color: var(--pa-text-muted);
+    display: flex;
+    gap: .35rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.pa-breadcrumb a { color: var(--pa-text-muted); }
+.pa-breadcrumb a:hover { color: var(--pa-primary); }
+.pa-breadcrumb .pa-sep { color: var(--pa-text-soft); }
+
+/* ۱۷) Info boxes (admin KPIs) */
+.pa-info-box {
+    background: #fff;
+    border: 1px solid var(--pa-border);
+    border-radius: var(--pa-radius-lg);
+    box-shadow: var(--pa-shadow);
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+}
+.pa-ib-icon {
+    width: 64px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    flex-shrink: 0;
+}
+.pa-bg-primary { background: var(--pa-primary); }
+.pa-bg-success { background: var(--pa-success); }
+.pa-bg-warning { background: var(--pa-warning); }
+.pa-bg-danger  { background: var(--pa-danger); }
+.pa-bg-info    { background: var(--pa-info); }
+.pa-ib-body { padding: .85rem 1rem; flex: 1; }
+.pa-ib-body h3 { font-size: 1.5rem; font-weight: 900; margin: 0; }
+.pa-ib-body p { font-size: .85rem; color: var(--pa-text-muted); margin: 0; }
+
+/* ۱۸) Layout containers */
+.pa-container, .pa-main, main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+.pa-content { padding: 1.5rem 1rem; max-width: 1200px; margin: 0 auto; }
+
+/* ۱۹) Mobile header */
+@media (max-width: 860px) {
+    .pa-site-links { display: none; }
+    .pa-site-search { max-width: none; order: 3; flex-basis: 100%; margin-top: .5rem; }
+    .pa-site-nav-in { flex-wrap: wrap; height: auto; padding: .6rem 1rem; }
+    .pa-site-actions { margin-inline-start: auto; }
+    .pa-site-burger { display: grid; }
+}
+@media (max-width: 480px) {
+    .pa-site-actions .pa-btn { display: none; }   /* hide ورود/ثبت‌نام text btns on tiny screens, keep icons */
+    .pa-container, .pa-content { padding: .75rem; }
+}
+
+/* ۲۰) Utility */
+.pa-bg-primary-soft { background: var(--pa-primary-soft); }
+.pa-text-primary { color: var(--pa-primary) !important; }
+.pa-border { border: 1px solid var(--pa-border); }
+.pa-rounded { border-radius: var(--pa-radius); }
+.pa-rounded-lg { border-radius: var(--pa-radius-lg); }
+.pa-shadow { box-shadow: var(--pa-shadow); }
+.pa-divider { height: 1px; background: var(--pa-border); border: 0; margin: 1rem 0; }

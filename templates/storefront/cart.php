@@ -40,7 +40,7 @@ $toFa = $__data['toFa'];
             <?php $p = $item['product']; ?>
             <div class="pa-card pa-mb-1">
                 <div class="pa-card-body pa-d-flex pa-gap-2 pa-align-center" style="flex-wrap:wrap">
-                    <div class="pa-product-thumb" style="background:linear-gradient(135deg,#6a4c93,#1982c4);display:grid;place-items:center;color:#fff;width:72px;height:72px;border-radius:12px;flex-shrink:0">
+                    <div class="pa-product-thumb" style="width:72px;height:72px;border-radius:12px;flex-shrink:0">
                         <span data-pa-icon="package_alt" data-pa-icon-size="32"></span>
                     </div>
                     <div style="flex:1;min-width:160px">

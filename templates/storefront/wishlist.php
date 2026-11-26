@@ -37,15 +37,14 @@ $toFa = $__data['toFa'];
 <div class="pa-row pa-gap-2">
     <?php foreach ($items as $p): ?>
         <?php
-        $grad = ['#6a4c93', '#1982c4'];
         $slug = rawurlencode((string) $p['slug']);
         $pid = (int) $p['id'];
         $stock = (int) $p['stock'];
         ?>
         <div class="pa-col-4">
             <div class="pa-product-card pa-hover-lift">
-                <div class="pa-product-thumb" style="background:linear-gradient(135deg,<?= $grad[0] ?>,<?= $grad[1] ?>);display:grid;place-items:center;color:#fff;position:relative">
-                    <a href="/product/<?= $slug ?>" style="display:grid;place-items:center;width:100%;height:100%;color:inherit">
+                <div class="pa-product-thumb" style="position:relative">
+                    <a href="/product/<?= $slug ?>" class="pa-product-thumb-link">
                         <span data-pa-icon="package_alt" data-pa-icon-size="56"></span>
                     </a>
                     <form method="post" action="/wishlist/remove" style="position:absolute;inset-block-start:8px;inset-inline-end:8px" onsubmit="return confirm('از علاقه‌مندی‌ها حذف شود؟')">

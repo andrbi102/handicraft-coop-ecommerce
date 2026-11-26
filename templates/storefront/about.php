@@ -23,7 +23,7 @@ $about = trim((string) ($settings['about_text'] ?? ''));
     </div>
 </div>
 
-<section class="pa-hero pa-mb-2" style="background:linear-gradient(135deg,#6a4c93,#ff595e);color:#fff;border-radius:16px;padding:32px">
+<section class="pa-hero pa-mb-2">
     <p style="margin:0;font-size:1.1rem;opacity:.92"><?= View::e($siteName) ?> — تعاونی روستایی برای حفظ صنایع نساجی دست‌بافت و توانمندسازی اعضا.</p>
 </section>
 

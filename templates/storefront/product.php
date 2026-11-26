@@ -23,13 +23,12 @@ $toFa = $__data['toFa'];
 $pid = (int) ($product['id'] ?? 0);
 $slug = rawurlencode((string) ($product['slug'] ?? ''));
 $stock = (int) ($product['stock'] ?? 0);
-$grad = ['#6a4c93', '#1982c4'];
 ?>
 <div class="pa-breadcrumb pa-mb-1"><a href="/">خانه</a><span class="pa-sep">›</span><a href="/products">محصولات</a><span class="pa-sep">›</span><span><?= View::e((string) ($product['name'] ?? '')) ?></span></div>
 
 <div class="pa-row pa-mb-2">
     <div class="pa-col-5">
-        <div class="pa-product-thumb" style="background:linear-gradient(135deg,<?= $grad[0] ?>,<?= $grad[1] ?>);display:grid;place-items:center;color:#fff;border-radius:16px;aspect-ratio:1/1">
+        <div class="pa-product-thumb" style="aspect-ratio:1/1;border-radius:16px">
             <span data-pa-icon="package_alt" data-pa-icon-size="120"></span>
         </div>
     </div>

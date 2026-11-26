@@ -24,7 +24,7 @@ $siteName = $__data['siteName'];
     </div>
 </div>
 
-<section class="pa-hero pa-mb-2" style="background:linear-gradient(135deg,#1982c4,#8ac926);color:#fff;border-radius:16px;padding:32px">
+<section class="pa-hero pa-mb-2">
     <p style="margin:0;font-size:1.1rem;opacity:.92">اعضای تعاونی صنایع‌دستی نساجی <?= View::e($siteName) ?> — تولیدکنندگان فرش، گلیم و پارچه‌های دست‌بافت روستایی.</p>
 </section>
 

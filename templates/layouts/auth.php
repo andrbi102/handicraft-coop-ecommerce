@@ -29,6 +29,7 @@ $brandMark = mb_substr($siteName, 0, 1, 'UTF-8') ?: 'ت';
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="stylesheet" href="/assets/padminlte/padminlte.css">
     <link rel="stylesheet" href="/assets/padminlte/coop-overrides.css">
+    <link rel="stylesheet" href="/assets/padminlte/digikala-theme.css">
 </head>
 <body class="pa-auth-page">
     <div class="pa-auth-card">

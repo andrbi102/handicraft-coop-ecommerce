@@ -31,7 +31,7 @@ $about = trim((string) ($settings['about_text'] ?? ''));
     </div>
 <?php endif; ?>
 
-<section class="pa-hero pa-anim-slide-up" style="background:linear-gradient(135deg,#6a4c93,#1982c4);color:#fff;border-radius:16px;padding:48px 32px;margin-bottom:24px">
+<section class="pa-hero pa-anim-slide-up">
     <h1 style="font-size:clamp(1.8rem,5vw,2.6rem);margin:0 0 8px"><?= View::e($siteName) ?></h1>
     <p style="font-size:clamp(1rem,2.5vw,1.2rem);opacity:.92;margin:0 0 24px;max-width:640px"><?= View::e($tagline) ?> — فرش، گلیم، پارچه‌های دست‌بافت و صنایع‌دستی نساجی روستایی، تولید اعضای تعاونی.</p>
     <div class="pa-d-flex pa-gap-2" style="flex-wrap:wrap">
