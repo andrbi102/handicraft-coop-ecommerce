@@ -33,8 +33,6 @@ use App\Controllers\Storefront\HomeController;
 use App\Controllers\Storefront\PageController;
 use App\Controllers\Storefront\ProductController;
 use App\Core\Middleware;
-use Container;
-use Router;
 
 return static function (Router $r, Container $c): void {
     // کمک‌تابع: ساخت هندلر کنترلر

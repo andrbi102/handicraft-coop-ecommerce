@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\ProductModel;
+use SecureSession;
 use RuntimeException;
 
 /**

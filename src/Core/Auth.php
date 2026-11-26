@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Core;
 
 use Database;
+use Crypto;
+use SecureSession;
 
 /**
  * احراز هویت — کاربر جاری، نقش‌ها، ورود/خروج.

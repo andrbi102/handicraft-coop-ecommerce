@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Core;
+
 /**
  * بارگذار پیکربندی — یک بار می‌خواند و کش می‌کند.
  *

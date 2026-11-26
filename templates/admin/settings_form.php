@@ -21,7 +21,6 @@ $fieldDefs = [
     'social_instagram' => ['اینستاگرام', 'text'],
     'footer_text'      => ['متن فوتر', 'text'],
 ];
-function sval(array $s, string $k): string { return View::e((string) ($s[$k] ?? '')); }
 ?>
 <div class="admin-card">
     <form action="/admin/settings" method="post">
@@ -31,9 +30,9 @@ function sval(array $s, string $k): string { return View::e((string) ($s[$k] ?? 
             <div class="field" style="grid-column:<?= $type === 'textarea' ? '1/-1' : 'auto' ?>">
                 <label><?= View::e($label) ?></label>
                 <?php if ($type === 'textarea'): ?>
-                    <textarea name="<?= $key ?>"><?= sval($settings, $key) ?></textarea>
+                    <textarea name="<?= $key ?>"><?= \App\Support\Form::value($settings, $key) ?></textarea>
                 <?php else: ?>
-                    <input type="<?= $type ?>" name="<?= $key ?>" value="<?= sval($settings, $key) ?>">
+                    <input type="<?= $type ?>" name="<?= $key ?>" value="<?= \App\Support\Form::value($settings, $key) ?>">
                 <?php endif; ?>
             </div>
             <?php endforeach; ?>

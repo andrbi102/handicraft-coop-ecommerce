@@ -7,7 +7,7 @@ namespace App\Services;
 use App\Models\CouponModel;
 use App\Models\OrderModel;
 use App\Models\ProductModel;
-use Config;
+use App\Core\Config;
 use Database;
 use RuntimeException;
 

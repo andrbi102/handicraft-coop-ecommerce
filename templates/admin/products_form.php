@@ -12,7 +12,6 @@ $members = $__data['members'] ?? [];
 $isEdit = $product !== null;
 $action = $isEdit ? '/admin/products/' . (int) $product['id'] : '/admin/products';
 $money = $__data['money'];
-function val(?array $p, string $k, string $def = ''): string { return $p !== null ? View::e((string) ($p[$k] ?? $def)) : $def; }
 ?>
 <div class="toolbar"><h2></h2><a href="/admin/products" class="btn btn-outline btn-sm">← بازگشت</a></div>
 <div class="admin-card">
@@ -20,7 +19,7 @@ function val(?array $p, string $k, string $def = ''): string { return $p !== nul
         <?= Csrf::field() ?>
         <div class="form-grid">
             <div class="field" style="grid-column:1/-1"><label>نام محصول *</label>
-                <input type="text" name="name" required value="<?= val($product, 'name') ?>"></div>
+                <input type="text" name="name" required value="<?= \App\Support\Form::value($product, 'name') ?>"></div>
             <div class="field"><label>دسته‌بندی *</label>
                 <select name="category_id" required>
                     <?php foreach ($categories as $c): ?>
@@ -42,15 +41,15 @@ function val(?array $p, string $k, string $def = ''): string { return $p !== nul
                 <input type="text" name="cost" inputmode="numeric" value="<?= $isEdit ? $money((int) $product['cost']) : '' ?>">
                 <div class="hint">برای محاسبه تسویه عضو استفاده می‌شود.</div></div>
             <div class="field"><label>موجودی</label>
-                <input type="number" name="stock" value="<?= val($product, 'stock', '0') ?>"></div>
+                <input type="number" name="stock" value="<?= \App\Support\Form::value($product, 'stock', '0') ?>"></div>
             <div class="field"><label>کد محصول (SKU)</label>
-                <input type="text" name="sku" value="<?= val($product, 'sku') ?>"></div>
+                <input type="text" name="sku" value="<?= \App\Support\Form::value($product, 'sku') ?>"></div>
             <div class="field"><label>وزن (گرم)</label>
-                <input type="number" name="weight_grams" value="<?= val($product, 'weight_grams', '0') ?>"></div>
+                <input type="number" name="weight_grams" value="<?= \App\Support\Form::value($product, 'weight_grams', '0') ?>"></div>
             <div class="field"><label>متریال</label>
-                <input type="text" name="material" value="<?= val($product, 'material') ?>"></div>
+                <input type="text" name="material" value="<?= \App\Support\Form::value($product, 'material') ?>"></div>
             <div class="field"><label>ابعاد</label>
-                <input type="text" name="dimensions" value="<?= val($product, 'dimensions') ?>"></div>
+                <input type="text" name="dimensions" value="<?= \App\Support\Form::value($product, 'dimensions') ?>"></div>
             <div class="field"><label>وضعیت</label>
                 <select name="status">
                     <?php foreach (['active'=>'فعال','draft'=>'پیش‌نویس','archived'=>'بایگانی'] as $k => $lbl): ?>
@@ -62,7 +61,7 @@ function val(?array $p, string $k, string $def = ''): string { return $p !== nul
                 <label style="font-weight:400"><input type="checkbox" name="is_featured" value="1" <?= $isEdit && (int) $product['is_featured'] === 1 ? 'checked' : '' ?>> نمایش در صفحه اصلی</label>
             </div>
             <div class="field" style="grid-column:1/-1"><label>توضیحات</label>
-                <textarea name="description"><?= val($product, 'description') ?></textarea></div>
+                <textarea name="description"><?= \App\Support\Form::value($product, 'description') ?></textarea></div>
         </div>
         <button class="btn btn-primary"><?= $isEdit ? 'به‌روزرسانی محصول' : 'ایجاد محصول' ?></button>
     </form>

@@ -42,11 +42,14 @@ abstract class Controller
     {
         $common = $this->commonData();
         $data = array_merge($common, $data);
-        // قالب‌ها به $__data دسترسی دارند (View::render با extract متغیرها را
-        // از کلیدها می‌سازد؛ $__data نیز به‌عنوان کلید تزریق می‌شود).
-        $data['__data'] = $data;
-        $content = $this->view()->render($template, $data);
+        // قالب داخلی: $__data به‌عنوان snapshot تزریق می‌شود (بدون content —
+        // قالب داخلی به content نیاز ندارد). View::render با extract متغیرها
+        // را از کلیدها می‌سازد، پس $__data هم در دسترس است.
+        $content = $this->view()->render($template, $data + ['__data' => $data]);
         $data['content'] = $content;
+        // لایوت: $__data را پس از افزودن content دوباره snapshot می‌کنیم تا
+        // لایوت بتواند به $__data['content'] (و سایر کلیدها) دسترسی داشته باشد.
+        $data['__data'] = $data;
         echo $this->view()->render('layouts/' . $layout, $data);
     }
 

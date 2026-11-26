@@ -6,7 +6,7 @@ namespace App\Controllers\Storefront;
 
 use App\Controllers\StorefrontController;
 use App\Core\Auth;
-use App\Core\Crypto;
+use Crypto;
 use App\Core\Request;
 use App\Core\Slug;
 use App\Models\UserModel;

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Models;
+use Database;
 
 /**
  * تنظیمات کلید-مقدار — اطلاعات قابل ویرایش تعاونی (نشانی، تلفن، درباره ما،

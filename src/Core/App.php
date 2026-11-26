@@ -182,6 +182,13 @@ final class App
         if ($path === '' || $path === false) {
             $path = '/';
         }
-        return (string) $path;
+        $path = (string) $path;
+        // رمزگشایی Percent-encoding برای پشتیبانی از slugهای فارسی. روتر
+        // سگمنت‌ها را با اسلش جدا می‌کند؛ چون slugها (تولید Slug::make) هرگز
+        // شامل «/» نیستند، رمزگشایی کل مسیر امن است و امکان تزریق مسیر نمی‌سازد.
+        if ($path !== '/') {
+            $path = rawurldecode($path);
+        }
+        return $path;
     }
 }

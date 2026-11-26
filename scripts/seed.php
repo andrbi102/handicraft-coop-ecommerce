@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace Coop\Scripts;
 
 use App\Core\App;
-use App\Core\Crypto;
+use Crypto;
 use App\Core\Slug;
 use App\Models\CategoryModel;
 use App\Models\CouponModel;
