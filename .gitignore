@@ -1,0 +1,25 @@
+# دیتابیس و کلید و لاگ‌ها — هرگز commit نشوند
+storage/db/*.sqlite
+storage/db/*.sqlite-wal
+storage/db/*.sqlite-shm
+storage/db/app_key.txt
+storage/logs/*.log
+storage/uploads/*
+!storage/**/.gitkeep
+
+# فایل‌های موقت سیستم
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# خروجی وابستگی (هرگز نباید وجود داشته باشد — صفر وابستگی)
+vendor/
+composer.json
+composer.lock
+node_modules/
+
+# محیط
+.env
+.env.local

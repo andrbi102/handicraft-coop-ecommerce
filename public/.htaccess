@@ -1,0 +1,28 @@
+# بازنویسی Apache — همه درخواست‌ها به کنترلر فرانت.
+# این فایل در پوشه public/ (document root) قرار دارد.
+
+<IfModule mod_rewrite.c>
+    Options -MultiViews
+    RewriteEngine On
+
+    # دسترسی مستقیم به فایل‌های استاتیک مجاز است
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # بقیه مسیرها به index.php
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# کاراکتر پیش‌فرض UTF-8
+AddDefaultCharset UTF-8
+
+# مخفی‌کردن فهرست پوشه‌ها
+Options -Indexes
+
+# هدرهای امنیتی تکمیلی (در صورت فعال بودن mod_headers)
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
