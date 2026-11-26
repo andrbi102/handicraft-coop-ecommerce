@@ -42,6 +42,8 @@ $theme = (string) ($settings['admin_theme'] ?? 'light');
     <meta name="description" content="پنل مدیریت <?= View::e($siteName) ?>">
     <meta name="robots" content="noindex, nofollow">
     <title><?= View::e($title) ?> — <?= View::e($siteName) ?></title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="stylesheet" href="/assets/padminlte/padminlte.css">
     <link rel="stylesheet" href="/assets/padminlte/coop-overrides.css">
 </head>

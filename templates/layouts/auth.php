@@ -25,6 +25,8 @@ $brandMark = mb_substr($siteName, 0, 1, 'UTF-8') ?: 'ت';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
     <title><?= View::e($title) ?> — <?= View::e($siteName) ?></title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="stylesheet" href="/assets/padminlte/padminlte.css">
     <link rel="stylesheet" href="/assets/padminlte/coop-overrides.css">
 </head>
