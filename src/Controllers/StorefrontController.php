@@ -25,6 +25,17 @@ abstract class StorefrontController extends Controller
         $this->render('store', $template, $data);
     }
 
+    /**
+     * رندر با لایوت احراز هویت (pa-auth-page) — کارت مرکزی، بدون نوار/فوتر.
+     */
+    protected function renderAuth(string $template, array $data, array $ctx): void
+    {
+        $data['user'] = $ctx['user'] ?? null;
+        $data['flash'] = $ctx['flash'] ?? [];
+        $data['title'] = $data['title'] ?? (string) ($this->commonData()['siteName']);
+        $this->render('auth', $template, $data);
+    }
+
     protected function cartCount(): int
     {
         return $this->c->get(CartService::class)->count();

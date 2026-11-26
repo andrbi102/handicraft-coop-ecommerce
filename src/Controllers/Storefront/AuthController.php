@@ -26,7 +26,7 @@ final class AuthController extends StorefrontController
         if (($ctx['user'] ?? null) !== null) {
             $this->redirect('/account');
         }
-        $this->renderStore('storefront/login', [
+        $this->renderAuth('storefront/login', [
             'title' => 'ورود',
             'return' => Request::query('return', ''),
         ], $ctx);
@@ -59,7 +59,7 @@ final class AuthController extends StorefrontController
         if (($ctx['user'] ?? null) !== null) {
             $this->redirect('/account');
         }
-        $this->renderStore('storefront/register', ['title' => 'ثبت‌نام'], $ctx);
+        $this->renderAuth('storefront/register', ['title' => 'ثبت‌نام'], $ctx);
     }
 
     public function register(array $ctx): void
