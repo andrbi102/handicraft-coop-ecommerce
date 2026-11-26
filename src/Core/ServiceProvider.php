@@ -16,6 +16,7 @@ use App\Models\UserModel;
 use App\Services\CartService;
 use App\Services\OrderService;
 use App\Services\SettlementService;
+use App\Services\WishlistService;
 use Container;
 use Database;
 
@@ -43,6 +44,7 @@ final class ServiceProvider
 
         // — سرویس‌ها —
         $c->set(CartService::class, static fn (Container $c): CartService => new CartService($c->get(ProductModel::class)));
+        $c->set(WishlistService::class, static fn (Container $c): WishlistService => new WishlistService($c->get(ProductModel::class)));
         $c->set(SettlementService::class, static fn (Container $c): SettlementService => new SettlementService(
             $c->get(Database::class),
             $c->get(OrderModel::class),

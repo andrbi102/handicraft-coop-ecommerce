@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Services\CartService;
+use App\Services\WishlistService;
 
 /**
  * پایه کنترلرهای فروشگاه — لایوت «store» و داده‌های مشترک (کاربر، فلش،
- * شمارنده سبد، تنظیمات، دسته‌ها).
+ * شمارنده سبد و علاقه‌مندی، تنظیمات، دسته‌ها).
  *
  * @package Coop\Controllers
- * @version 0.1.0
+ * @version 0.2.0
  * @security-level public
  */
 abstract class StorefrontController extends Controller
@@ -21,6 +22,7 @@ abstract class StorefrontController extends Controller
         $data['user'] = $ctx['user'] ?? null;
         $data['flash'] = $ctx['flash'] ?? [];
         $data['cartCount'] = $this->cartCount();
+        $data['wishlistCount'] = $this->wishlistCount();
         $data['title'] = $data['title'] ?? (string) ($this->commonData()['siteName']);
         $this->render('store', $template, $data);
     }
@@ -39,5 +41,10 @@ abstract class StorefrontController extends Controller
     protected function cartCount(): int
     {
         return $this->c->get(CartService::class)->count();
+    }
+
+    protected function wishlistCount(): int
+    {
+        return $this->c->get(WishlistService::class)->count();
     }
 }

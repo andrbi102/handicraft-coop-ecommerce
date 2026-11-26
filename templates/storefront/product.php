@@ -62,6 +62,12 @@ $grad = ['#6a4c93', '#1982c4'];
                 <button type="submit" class="pa-btn pa-btn-primary pa-btn-lg" data-pa-icon="shopping_cart"> افزودن به سبد خرید</button>
             </form>
         <?php endif; ?>
+
+        <form method="post" action="/wishlist/add?id=<?= $pid ?>" class="pa-mt-1">
+            <?= Csrf::field() ?>
+            <input type="hidden" name="product_id" value="<?= $pid ?>">
+            <button type="submit" class="pa-btn pa-btn-outline pa-btn-sm" data-pa-icon="heart" data-pa-icon-size="14"> افزودن به علاقه‌مندی‌ها</button>
+        </form>
     </div>
 </div>
 

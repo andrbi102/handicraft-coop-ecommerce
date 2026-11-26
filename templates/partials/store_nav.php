@@ -49,6 +49,13 @@ $active = static fn(string $route): bool => $path === $route || str_starts_with(
         <div class="pa-site-actions">
             <button class="pa-icon-btn" data-pa-theme-toggle aria-label="تغییر تم"></button>
 
+            <a class="pa-site-cart" href="/wishlist" aria-label="علاقه‌مندی‌ها">
+                <span data-pa-icon="heart"></span>
+                <?php if (($wishlistCount ?? 0) > 0): ?>
+                    <span class="pa-site-cart-badge"><?= $toFa((string) $wishlistCount) ?></span>
+                <?php endif; ?>
+            </a>
+
             <a class="pa-site-cart" href="/cart" aria-label="سبد خرید">
                 <span data-pa-icon="shopping_cart"></span>
                 <?php if ($cartCount > 0): ?>
