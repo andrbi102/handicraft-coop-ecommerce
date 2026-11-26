@@ -147,3 +147,18 @@ img, canvas, video, svg { max-width: 100%; height: auto; }
     align-items: center;
     justify-content: space-between;
 }
+
+/* ۱۱) دکمهٔ خروج به‌صورت POST — بازنشانی استایل button تا مثل لینک نمایش داده شود */
+form.pa-logout-form { display: contents; }
+button.pa-logout-btn {
+    width: 100%;
+    margin: 0;
+    padding: inherit;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    cursor: pointer;
+    display: inherit;
+}

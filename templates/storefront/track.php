@@ -19,6 +19,7 @@ $phone = $__data['phone'] ?? '';
 $order = $__data['order'] ?? null;
 $items = $__data['items'] ?? [];
 $searched = (bool) ($__data['searched'] ?? false);
+$trackError = (string) ($__data['trackError'] ?? '');
 $money = $__data['money'];
 $toFa = $__data['toFa'];
 
@@ -57,7 +58,7 @@ $isTerminalBad = in_array($currentStatus, ['cancelled', 'refunded'], true);
                         <label for="t-phone">تلفن ثبت‌شده در سفارش *</label>
                         <div class="pa-input-group">
                             <span class="pa-input-addon" data-pa-icon="phone"></span>
-                            <input id="t-phone" class="pa-input" type="tel" name="phone" data-pa-validate="required" data-pa-minlen="4" value="<?= View::e((string) $phone) ?>" required>
+                            <input id="t-phone" class="pa-input" type="tel" name="phone" data-pa-validate="required" data-pa-minlen="7" value="<?= View::e((string) $phone) ?>" required>
                         </div>
                         <div class="pa-form-feedback"></div>
                         <div class="pa-hint">برای امنیت، تلفن باید با سفارش مطابقت داشته باشد.</div>
@@ -139,6 +140,6 @@ $isTerminalBad = in_array($currentStatus, ['cancelled', 'refunded'], true);
 <?php elseif ($searched): ?>
     <div class="pa-alert pa-alert-danger" role="alert">
         <span data-pa-icon="x_circle"></span>
-        <div class="pa-alert-body">سفارشی با این اطلاعات یافت نشد. شماره سفارش و تلفن را بررسی کنید.</div>
+        <div class="pa-alert-body"><?= $trackError !== '' ? View::e($trackError) : 'سفارشی با این اطلاعات یافت نشد. شماره سفارش و تلفن را بررسی کنید.' ?></div>
     </div>
 <?php endif; ?>

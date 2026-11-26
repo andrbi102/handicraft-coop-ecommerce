@@ -82,7 +82,7 @@ return static function (Router $r, Container $c): void {
     $r->post('/login', $action(AuthController::class, 'login'));
     $r->get('/register', $action(AuthController::class, 'registerForm'));
     $r->post('/register', $action(AuthController::class, 'register'));
-    $r->get('/logout', $action(AuthController::class, 'logout'));
+    $r->post('/logout', $action(AuthController::class, 'logout'));
 
     // — حساب کاربری مشتری —
     $r->get('/account', $action(AccountController::class, 'index', [$auth]));

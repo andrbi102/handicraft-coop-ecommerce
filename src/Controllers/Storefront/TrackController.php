@@ -23,12 +23,15 @@ final class TrackController extends StorefrontController
     public function index(array $ctx): void
     {
         $number = trim((string) Request::query('number', ''));
+        $phone = trim((string) Request::query('phone', ''));
         $order = null;
         $items = [];
-        $phone = '';
+        $error = null;
 
         if ($number !== '') {
-            $order = $this->lookup($number, (string) Request::query('phone', ''));
+            $result = $this->lookup($number, $phone);
+            $order = $result['order'];
+            $error = $result['error'];
             if ($order !== null) {
                 $items = $this->c->get(OrderModel::class)->items((int) $order['id']);
             }
@@ -37,10 +40,11 @@ final class TrackController extends StorefrontController
         $this->renderStore('storefront/track', [
             'title' => 'پیگیری سفارش',
             'number' => $number,
-            'phone' => $phone !== '' ? $phone : (string) Request::query('phone', ''),
+            'phone' => $phone,
             'order' => $order,
             'items' => $items,
             'searched' => $number !== '',
+            'trackError' => $error,
         ], $ctx);
     }
 
@@ -51,28 +55,32 @@ final class TrackController extends StorefrontController
         $this->redirect('/track?number=' . rawurlencode($number) . '&phone=' . rawurlencode($phone));
     }
 
-    /** پیدا کردن سفارش با تطبیق شماره + تلفن. */
-    private function lookup(string $number, string $phone): ?array
+    /**
+     * پیدا کردن سفارش با تطبیق شماره + تلفن.
+     * خطا به‌صورت مستقیم (نه flash) برگردانده می‌شود چون این یک درخواستِ
+     * GETِ هم‌زمان است و flash در همان درخواست نمایش داده نمی‌شود.
+     *
+     * @return array{order: array<string, mixed>|null, error: string|null}
+     */
+    private function lookup(string $number, string $phone): array
     {
         $v = new Validator(['number' => $number, 'phone' => $phone]);
-        $v->required('number')->length('number', 4, 40)->required('phone')->length('phone', 4, 20);
+        $v->required('number')->length('number', 4, 40)->required('phone')->length('phone', 7, 20);
         if ($v->fails()) {
-            $this->flash('error', 'شماره سفارش و تلفن را کامل وارد کنید.');
-            return null;
+            return ['order' => null, 'error' => 'شماره سفارش و تلفن را کامل وارد کنید (تلفن حداقل ۷ رقم).'];
         }
         $order = $this->c->get(OrderModel::class)->findByNumber($number);
         if ($order === null) {
-            $this->flash('error', 'سفارشی با این شماره یافت نشد.');
-            return null;
+            return ['order' => null, 'error' => 'سفارشی با این شماره و تلفن یافت نشد.'];
         }
-        // تطبیق تلفن (پایانی یا کامل) برای جلوگیری از شمارش‌سازی
+        // تطبیق تلفن: تطبیق پایانِ تلفن ثبت‌شده با حداقل ۷ رقم — جلوگیری از
+        // شمارش‌سازی با زیررشتهٔ کوتاه (مثلاً ۴ رقم).
         $stored = (string) ($order['shipping_phone'] ?? '');
         $needle = preg_replace('/\D/', '', $phone);
         $haystack = preg_replace('/\D/', '', $stored);
-        if ($needle === '' || $haystack === '' || !str_contains($haystack, $needle)) {
-            $this->flash('error', 'تلفن با سفارش مطابقت ندارد.');
-            return null;
+        if ($needle === '' || $haystack === '' || strlen($needle) < 7 || !str_ends_with($haystack, $needle)) {
+            return ['order' => null, 'error' => 'سفارشی با این شماره و تلفن یافت نشد.'];
         }
-        return $order;
+        return ['order' => $order, 'error' => null];
     }
 }

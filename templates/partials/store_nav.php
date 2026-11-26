@@ -79,7 +79,10 @@ $active = static fn(string $route): bool => $path === $route || str_starts_with(
                             <a class="pa-dropdown-item" href="/admin"><span data-pa-icon="dashboard"></span> پنل مدیریت</a>
                         <?php endif; ?>
                         <div class="pa-dropdown-divider"></div>
-                        <a class="pa-dropdown-item" href="/logout"><span data-pa-icon="logout"></span> خروج</a>
+                        <form method="post" action="/logout" class="pa-logout-form">
+                            <?= Csrf::field() ?>
+                            <button type="submit" class="pa-dropdown-item pa-logout-btn"><span data-pa-icon="logout"></span> خروج</button>
+                        </form>
                     </div>
                 </div>
             <?php else: ?>

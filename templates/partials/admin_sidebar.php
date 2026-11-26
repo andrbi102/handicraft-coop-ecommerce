@@ -91,10 +91,12 @@ $item = static function (string $label, string $route, string $icon, bool $activ
             <span data-pa-icon="globe"></span>
             <span class="pa-label">نمایش فروشگاه</span>
         </a>
-        <a class="pa-sidebar-link" href="/logout">
+        <form method="post" action="/logout" class="pa-sidebar-link pa-logout-form" style="display:flex;position:relative">
+            <?= Csrf::field() ?>
             <span data-pa-icon="logout"></span>
             <span class="pa-label">خروج از حساب</span>
-        </a>
+            <button type="submit" class="pa-logout-btn" style="position:absolute;inset:0;opacity:0;cursor:pointer" aria-label="خروج از حساب"></button>
+        </form>
     </nav>
     <div class="pa-sidebar-footer">پنل مدیریت — نسخه ۰.۲.۰</div>
 </aside>

@@ -54,7 +54,10 @@ $roleLabel = match ($role) {
             <div class="pa-dropdown-divider"></div>
             <a class="pa-dropdown-item" href="/"><span data-pa-icon="globe"></span> نمایش فروشگاه</a>
             <div class="pa-dropdown-divider"></div>
-            <a class="pa-dropdown-item" href="/logout"><span data-pa-icon="logout"></span> خروج از حساب</a>
+            <form method="post" action="/logout" class="pa-logout-form">
+                <?= Csrf::field() ?>
+                <button type="submit" class="pa-dropdown-item pa-logout-btn"><span data-pa-icon="logout"></span> خروج از حساب</button>
+            </form>
         </div>
     </div>
 </header>
