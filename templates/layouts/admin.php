@@ -1,87 +1,75 @@
 <?php
+
 declare(strict_types=1);
+
 /**
- * لایوت پنل مدیریت.
- * @package Coop\Templates
- * @version 0.1.0
- * @security-level admin
+ * چیدمان مدیریت — پوستهٔ PAdminLTE (بدون وابستگی).
+ *
+ * کروم (سایدبار/نوار بالا/فوتر) سمت سرور رندر می‌شود (با مسیرهای واقعی اپ)،
+ * نه با data-pa-layout + pa-layout.js (که لینک‌های دموی پوسته را تزریق می‌کند).
+ * فقط pa-icons.js و padminlte.js بارگذاری می‌شوند — رفتارها (تم، دراپ‌داون،
+ * سایدبار، دیتاتیبل، فرم) با data-pa-* سیم‌کشی می‌شوند.
+ *
+ * متغیرها از Controller::render (extract $data) در دسترس‌اند: $content, $title,
+ * $user, $flash, $siteName, $settings, $__data.
+ *
+ * @package Coop\Views\Layouts
+ * @version 0.2.0
+ * @security-level core
  */
+
+/** @var array<string, mixed> $__data */
+/** @var string $content */
+/** @var string $siteName */
+/** @var string $title */
+/** @var array<string, mixed>|null $user */
+/** @var array<string, string> $flash */
+/** @var array<string, mixed> $settings */
+
+$siteName = (string) ($__data['siteName'] ?? 'تعاونی نساجی');
+$title = (string) ($__data['title'] ?? $siteName);
 $user = $__data['user'] ?? null;
 $flash = $__data['flash'] ?? [];
-$adminPrefix = $__data['adminPrefix'] ?? '/admin';
-$roles = $__data['roles'] ?? [];
-$pendingOrders = (int) ($__data['pendingOrders'] ?? 0);
-$unreadMessages = (int) ($__data['unreadMessages'] ?? 0);
-$title = $__data['title'] ?? 'پنل مدیریت';
-$section = $__data['section'] ?? '';
-$content = $__data['content'] ?? '';
-$nav = [
-    'dashboard'   => ['داشبورد', '/admin'],
-    'orders'      => ['سفارش‌ها', '/admin/orders'],
-    'products'    => ['محصولات', '/admin/products'],
-    'categories'  => ['دسته‌بندی‌ها', '/admin/categories'],
-    'members'     => ['نساجان', '/admin/members'],
-    'customers'   => ['مشتریان', '/admin/customers'],
-    'settlements' => ['تسویه مالی', '/admin/settlements'],
-    'coupons'     => ['کدهای تخفیف', '/admin/coupons'],
-    'reports'     => ['گزارش‌ها', '/admin/reports'],
-    'messages'    => ['پیام‌ها', '/admin/messages'],
-    'settings'    => ['تنظیمات', '/admin/settings'],
-];
+$settings = $__data['settings'] ?? [];
+$theme = (string) ($settings['admin_theme'] ?? 'light');
+
 ?>
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!doctype html>
+<html lang="fa" dir="rtl" data-pa-theme="<?= View::e($theme) ?>">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="پنل مدیریت <?= View::e($siteName) ?>">
     <meta name="robots" content="noindex, nofollow">
-    <title><?= View::e($title) ?> — پنل مدیریت</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <title><?= View::e($title) ?> — <?= View::e($siteName) ?></title>
+    <link rel="stylesheet" href="/assets/padminlte/padminlte.css">
 </head>
-<body class="admin-body">
-<div class="admin-shell">
-    <aside class="admin-sidebar">
-        <div class="brand">🧶 پنل تعاونی</div>
-        <ul class="admin-nav">
-            <?php foreach ($nav as $key => $item): ?>
-                <?php [$label, $url] = $item; ?>
-                <li>
-                    <a href="<?= $url ?>" class="<?= $section === $key ? 'active' : '' ?>">
-                        <?= View::e($label) ?>
-                        <?php if ($key === 'orders' && $pendingOrders > 0): ?>
-                            <span class="badge"><?= $toFa((string) $pendingOrders) ?></span>
-                        <?php elseif ($key === 'messages' && $unreadMessages > 0): ?>
-                            <span class="badge"><?= $toFa((string) $unreadMessages) ?></span>
-                        <?php endif; ?>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-            <li><a href="/" target="_blank">مشاهده فروشگاه ↗</a></li>
-            <li><a href="/logout">خروج</a></li>
-        </ul>
-    </aside>
-    <div class="admin-main">
-        <div class="admin-topbar">
-            <div style="display:flex;align-items:center;gap:10px;">
-                <button class="menu-toggle">☰ منو</button>
-                <h1><?= View::e($title) ?></h1>
-            </div>
-            <div class="text-muted" style="font-size:14px;">
-                <?php if ($user !== null): ?>
-                    <?= View::e($user['name']) ?> — <?= View::e($roles[$user['role']] ?? $user['role']) ?>
-                <?php endif; ?>
-            </div>
-        </div>
-        <div class="admin-content">
-            <?php foreach (['success','error','info'] as $fkey): ?>
-                <?php if (!empty($flash[$fkey])): ?>
-                    <div class="flash <?= $fkey ?>"><?= View::e((string) $flash[$fkey]) ?></div>
-                <?php endif; ?>
-            <?php endforeach; ?>
-            <?= $content ?>
+<body>
+    <a class="pa-skip-link" href="#pa-main-content">پرش به محتوا</a>
+    <div class="pa-app" id="pa-app">
+        <?php include __DIR__ . '/../partials/admin_sidebar.php'; ?>
+        <div class="pa-main">
+            <?php include __DIR__ . '/../partials/admin_navbar.php'; ?>
+            <main class="pa-content" id="pa-main-content">
+                <?php // پیام‌های فلش ?>
+                <?php foreach (['success' => 'success', 'error' => 'danger', 'info' => 'info', 'warning' => 'warning'] as $key => $kind): ?>
+                    <?php $msg = trim((string) ($flash[$key] ?? '')); ?>
+                    <?php if ($msg !== ''): ?>
+                        <div class="pa-alert pa-alert-<?= $kind ?> pa-anim-slide-up">
+                            <span data-pa-icon="<?= $kind === 'success' ? 'check_circle' : ($kind === 'danger' ? 'x_circle' : 'info') ?>"></span>
+                            <div class="pa-alert-body"><?= View::e($msg) ?></div>
+                            <button class="pa-close" aria-label="بستن">&times;</button>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+
+                <?= $content ?>
+
+                <?php include __DIR__ . '/../partials/admin_footer.php'; ?>
+            </main>
         </div>
     </div>
-</div>
-<script src="/assets/js/app.js"></script>
+    <script src="/assets/padminlte/pa-icons.js"></script>
+    <script src="/assets/padminlte/padminlte.js"></script>
 </body>
 </html>
