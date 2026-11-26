@@ -1,39 +1,62 @@
 <?php
+
 declare(strict_types=1);
+
 /**
- * پیام‌های دریافتی.
+ * فهرست پیام‌های تماس (مدیریت) — پوستهٔ PAdminLTE.
+ *
  * @package Coop\Templates\Admin
- * @version 0.1.0
+ * @version 0.2.0
  * @security-level admin
  */
+
+/** @var array<string, mixed> $__data */
+
 $messages = $__data['messages'] ?? [];
 $page = (int) ($__data['page'] ?? 1);
 $pages = (int) ($__data['pages'] ?? 1);
+$toFa = $__data['toFa'];
 ?>
-<div class="admin-card">
-    <div class="table-wrap" style="border:0;box-shadow:none">
-    <table class="data">
-        <thead><tr><th>نام</th><th>ایمیل</th><th>موضوع</th><th>تاریخ</th><th>وضعیت</th><th></th></tr></thead>
-        <tbody>
-        <?php foreach ($messages as $m): ?>
-        <tr>
-            <td><strong><?= View::e($m['name']) ?></strong></td>
-            <td><?= View::e($m['email']) ?></td>
-            <td><?= View::e($m['subject']) ?></td>
-            <td><?= $toFa((string) substr((string) $m['created_at'], 0, 10)) ?></td>
-            <td><?php if ((int) $m['is_read'] === 0): ?><span class="tag low">جدید</span><?php else: ?><span class="text-muted">خوانده‌شده</span><?php endif; ?></td>
-            <td><a href="/admin/messages/<?= (int) $m['id'] ?>" class="btn btn-outline btn-sm">مشاهده</a></td>
-        </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+<div class="pa-page-header pa-anim-slide-up">
+    <div>
+        <h1>پیام‌های تماس</h1>
+        <div class="pa-breadcrumb"><a href="/admin">پنل مدیریت</a><span class="pa-sep">›</span><span>پیام‌ها</span></div>
     </div>
-    <?php if ($pages > 1): ?>
-    <div class="pagination">
-        <?php for ($i = 1; $i <= $pages; $i++): ?>
-            <?php if ($i === $page): ?><span class="current"><?= $toFa((string) $i) ?></span>
-            <?php else: ?><a href="/admin/messages?page=<?= $i ?>"><?= $toFa((string) $i) ?></a><?php endif; ?>
-        <?php endfor; ?>
-    </div>
-    <?php endif; ?>
 </div>
+
+<div class="pa-card pa-anim-slide-up pa-anim-delay-1">
+    <div class="pa-card-header"><h3>صندوق پیام‌ها</h3></div>
+    <div class="pa-card-body" style="padding:0">
+        <div class="pa-table-wrap">
+            <table class="pa-table pa-table-striped pa-table-hover">
+                <thead><tr>
+                    <th>نام</th><th>ایمیل</th><th>موضوع</th><th>تاریخ</th><th>وضعیت</th><th data-no-export></th>
+                </tr></thead>
+                <tbody>
+                <?php if ($messages === []): ?>
+                    <tr><td colspan="6" class="pa-text-center pa-text-muted" style="padding:30px 0">پیامی دریافت نشده است.</td></tr>
+                <?php else: ?>
+                    <?php foreach ($messages as $msg): ?>
+                        <tr<?= (int) $msg['is_read'] === 0 ? ' style="font-weight:600"' : '' ?>>
+                            <td><strong><?= View::e($msg['name']) ?></strong></td>
+                            <td><?= View::e($msg['email']) ?></td>
+                            <td><?= View::e($msg['subject']) ?></td>
+                            <td class="pa-text-muted"><?= $toFa((string) mb_substr((string) $msg['created_at'], 0, 10, 'UTF-8')) ?></td>
+                            <td>
+                                <?php if ((int) $msg['is_read'] === 0): ?>
+                                    <span class="pa-badge pa-badge-danger">جدید</span>
+                                <?php else: ?>
+                                    <span class="pa-text-muted pa-fs-sm">خوانده‌شده</span>
+                                <?php endif; ?>
+                            </td>
+                            <td data-no-export><a class="pa-btn pa-btn-ghost pa-btn-sm" href="/admin/messages/<?= (int) $msg['id'] ?>" data-pa-icon="eye" data-pa-icon-size="16" aria-label="مشاهده"></a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<?php include __DIR__ . '/../partials/pagination.php'; ?>

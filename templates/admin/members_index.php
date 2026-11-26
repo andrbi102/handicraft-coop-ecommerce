@@ -1,45 +1,67 @@
 <?php
+
 declare(strict_types=1);
+
 /**
- * فهرست اعضای تعاونی (نساجان).
+ * فهرست اعضای تعاونی / نساجان (مدیریت) — پوستهٔ PAdminLTE.
+ *
  * @package Coop\Templates\Admin
- * @version 0.1.0
+ * @version 0.2.0
  * @security-level admin
  */
+
+/** @var array<string, mixed> $__data */
+
 $members = $__data['members'] ?? [];
 $page = (int) ($__data['page'] ?? 1);
 $pages = (int) ($__data['pages'] ?? 1);
 $money = $__data['money'];
+$toFa = $__data['toFa'];
+
+$statusLabel = ['active' => 'فعال', 'inactive' => 'غیرفعال'];
+$statusBadge = ['active' => 'pa-badge-success', 'inactive' => 'pa-badge-secondary'];
 ?>
-<div class="toolbar"><h2></h2><a href="/admin/members/create" class="btn btn-primary">+ عضو جدید</a></div>
-<div class="admin-card">
-    <div class="table-wrap" style="border:0;box-shadow:none">
-    <table class="data">
-        <thead><tr><th>نام</th><th>تخصص</th><th>منطقه</th><th class="num">سهام</th><th>عضویت</th><th>وضعیت</th><th></th></tr></thead>
-        <tbody>
-        <?php foreach ($members as $m): ?>
-        <tr>
-            <td><a href="/admin/members/<?= (int) $m['id'] ?>"><strong><?= View::e($m['full_name']) ?></strong></a></td>
-            <td><?= View::e($m['craft']) ?></td>
-            <td><?= View::e($m['region']) ?></td>
-            <td class="num"><?= $money((int) $m['share_capital']) ?></td>
-            <td><?= $toFa((string) substr((string) $m['joined_at'], 0, 10)) ?></td>
-            <td><span class="tag <?= $m['status'] === 'active' ? '' : 'out' ?>"><?= View::e($m['status']) ?></span></td>
-            <td>
-                <a href="/admin/members/<?= (int) $m['id'] ?>" class="btn btn-outline btn-sm">جزئیات</a>
-                <a href="/admin/members/<?= (int) $m['id'] ?>/edit" class="btn btn-outline btn-sm">ویرایش</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+<div class="pa-page-header pa-anim-slide-up">
+    <div>
+        <h1>نساجان تعاونی</h1>
+        <div class="pa-breadcrumb"><a href="/admin">پنل مدیریت</a><span class="pa-sep">›</span><span>اعضا</span></div>
     </div>
-    <?php if ($pages > 1): ?>
-    <div class="pagination">
-        <?php for ($i = 1; $i <= $pages; $i++): ?>
-            <?php if ($i === $page): ?><span class="current"><?= $toFa((string) $i) ?></span>
-            <?php else: ?><a href="/admin/members?page=<?= $i ?>"><?= $toFa((string) $i) ?></a><?php endif; ?>
-        <?php endfor; ?>
+    <div class="pa-d-flex pa-gap-2">
+        <a class="pa-btn pa-btn-primary pa-btn-sm" href="/admin/members/create" data-pa-icon="user_plus"> عضو جدید</a>
     </div>
-    <?php endif; ?>
 </div>
+
+<div class="pa-card pa-anim-slide-up pa-anim-delay-1">
+    <div class="pa-card-header"><h3>فهرست اعضا</h3></div>
+    <div class="pa-card-body" style="padding:0">
+        <div class="pa-table-wrap">
+            <table class="pa-table pa-table-striped pa-table-hover">
+                <thead><tr>
+                    <th>نام</th><th>تخصص</th><th>منطقه</th><th class="pa-text-end">سهام</th><th>عضویت</th><th>وضعیت</th><th data-no-export></th>
+                </tr></thead>
+                <tbody>
+                <?php if ($members === []): ?>
+                    <tr><td colspan="7" class="pa-text-center pa-text-muted" style="padding:30px 0">عضوی ثبت نشده است.</td></tr>
+                <?php else: ?>
+                    <?php foreach ($members as $m): ?>
+                        <tr>
+                            <td><a href="/admin/members/<?= (int) $m['id'] ?>"><strong><?= View::e($m['full_name']) ?></strong></a></td>
+                            <td><?= View::e($m['craft']) ?></td>
+                            <td class="pa-text-muted"><?= View::e($m['region']) ?></td>
+                            <td class="pa-text-end"><?= $money((int) $m['share_capital']) ?></td>
+                            <td class="pa-text-muted"><?= $toFa((string) mb_substr((string) $m['joined_at'], 0, 10, 'UTF-8')) ?></td>
+                            <td><span class="pa-badge <?= View::e($statusBadge[$m['status']] ?? 'pa-badge-secondary') ?>"><?= View::e($statusLabel[$m['status']] ?? $m['status']) ?></span></td>
+                            <td data-no-export class="pa-d-flex pa-gap-1">
+                                <a class="pa-btn pa-btn-ghost pa-btn-sm" href="/admin/members/<?= (int) $m['id'] ?>" data-pa-icon="eye" data-pa-icon-size="16" aria-label="جزئیات"></a>
+                                <a class="pa-btn pa-btn-ghost pa-btn-sm" href="/admin/members/<?= (int) $m['id'] ?>/edit" data-pa-icon="edit" data-pa-icon-size="16" aria-label="ویرایش"></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<?php include __DIR__ . '/../partials/pagination.php'; ?>

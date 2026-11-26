@@ -1,64 +1,106 @@
 <?php
+
 declare(strict_types=1);
+
 /**
- * کدهای تخفیف — فهرست + ایجاد.
+ * فهرست کدهای تخفیف + فرم افزودن (مدیریت) — پوستهٔ PAdminLTE.
+ *
  * @package Coop\Templates\Admin
- * @version 0.1.0
+ * @version 0.2.0
  * @security-level admin
  */
+
+/** @var array<string, mixed> $__data */
+
 $coupons = $__data['coupons'] ?? [];
 $page = (int) ($__data['page'] ?? 1);
 $pages = (int) ($__data['pages'] ?? 1);
 $money = $__data['money'];
+$toFa = $__data['toFa'];
+
+$statusLabel = ['active' => 'فعال', 'inactive' => 'غیرفعال'];
+$statusBadge = ['active' => 'pa-badge-success', 'inactive' => 'pa-badge-secondary'];
 ?>
-<div class="row">
-    <div class="col" style="flex:2">
-        <div class="admin-card">
-            <h2>کدهای تخفیف</h2>
-            <div class="table-wrap" style="border:0;box-shadow:none">
-            <table class="data">
-                <thead><tr><th>کد</th><th>نوع</th><th class="num">مقدار</th><th class="num">حداقل</th><th class="num">استفاده</th><th>انقضا</th><th>وضعیت</th><th></th></tr></thead>
-                <tbody>
-                <?php foreach ($coupons as $c): ?>
-                <tr>
-                    <td><code><?= View::e($c['code']) ?></code></td>
-                    <td><?= View::e($c['type'] === 'percent' ? 'درصدی' : 'ثابت') ?></td>
-                    <td class="num"><?= $c['type'] === 'percent' ? $toFa((string) $c['value']) . '٪' : $money((int) $c['value']) ?></td>
-                    <td class="num"><?= $money((int) $c['min_subtotal']) ?></td>
-                    <td class="num"><?= $toFa((string) $c['used_count']) ?>/<?= $c['usage_limit'] !== null ? $toFa((string) $c['usage_limit']) : '∞' ?></td>
-                    <td><?= View::e((string) ($c['expires_at'] ?? '—')) ?></td>
-                    <td><span class="tag <?= $c['status'] === 'active' ? '' : 'out' ?>"><?= View::e($c['status']) ?></span></td>
-                    <td><a href="/admin/coupons/<?= (int) $c['id'] ?>/edit" class="btn btn-outline btn-sm">ویرایش</a></td>
-                </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-            </div>
-            <?php if ($pages > 1): ?>
-            <div class="pagination">
-                <?php for ($i = 1; $i <= $pages; $i++): ?>
-                    <?php if ($i === $page): ?><span class="current"><?= $toFa((string) $i) ?></span>
-                    <?php else: ?><a href="/admin/coupons?page=<?= $i ?>"><?= $toFa((string) $i) ?></a><?php endif; ?>
-                <?php endfor; ?>
-            </div>
-            <?php endif; ?>
-        </div>
+<div class="pa-page-header pa-anim-slide-up">
+    <div>
+        <h1>کدهای تخفیف</h1>
+        <div class="pa-breadcrumb"><a href="/admin">پنل مدیریت</a><span class="pa-sep">›</span><span>تخفیف</span></div>
     </div>
-    <div class="col" style="flex:1">
-        <div class="admin-card">
-            <h2>کد جدید</h2>
-            <form action="/admin/coupons" method="post">
-                <?= Csrf::field() ?>
-                <div class="field"><label>کد *</label><input type="text" name="code" required minlength="3"></div>
-                <div class="field"><label>نوع</label>
-                    <select name="type"><option value="fixed">مبلغ ثابت</option><option value="percent">درصدی</option></select>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col-8">
+        <div class="pa-card pa-anim-slide-up pa-anim-delay-1">
+            <div class="pa-card-header"><h3>کدها</h3></div>
+            <div class="pa-card-body" style="padding:0">
+                <div class="pa-table-wrap">
+                    <table class="pa-table pa-table-striped pa-table-hover">
+                        <thead><tr>
+                            <th>کد</th><th>نوع</th><th class="pa-text-end">مقدار</th><th class="pa-text-end">حداقل</th>
+                            <th class="pa-text-end">استفاده</th><th>انقضا</th><th>وضعیت</th><th data-no-export></th>
+                        </tr></thead>
+                        <tbody>
+                        <?php if ($coupons === []): ?>
+                            <tr><td colspan="8" class="pa-text-center pa-text-muted" style="padding:30px 0">کد تخفیفی ثبت نشده است.</td></tr>
+                        <?php else: ?>
+                            <?php foreach ($coupons as $cp): ?>
+                                <tr>
+                                    <td><code><strong><?= View::e($cp['code']) ?></strong></code></td>
+                                    <td><?= $cp['type'] === 'percent' ? 'درصدی' : 'ثابت' ?></td>
+                                    <td class="pa-text-end"><?= $cp['type'] === 'percent' ? $toFa((string) $cp['value']) . '٪' : $money((int) $cp['value']) ?></td>
+                                    <td class="pa-text-end pa-text-muted"><?= $money((int) $cp['min_subtotal']) ?></td>
+                                    <td class="pa-text-end"><?= $toFa((string) $cp['used_count']) . ' / ' . ($cp['usage_limit'] === null ? '∞' : $toFa((string) $cp['usage_limit'])) ?></td>
+                                    <td class="pa-text-muted"><?= View::e($cp['expires_at'] ?: '—') ?></td>
+                                    <td><span class="pa-badge <?= View::e($statusBadge[$cp['status']] ?? 'pa-badge-secondary') ?>"><?= View::e($statusLabel[$cp['status']] ?? $cp['status']) ?></span></td>
+                                    <td data-no-export><a class="pa-btn pa-btn-ghost pa-btn-sm" href="/admin/coupons/<?= (int) $cp['id'] ?>/edit" data-pa-icon="edit" data-pa-icon-size="16" aria-label="ویرایش"></a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="field"><label>مقدار *</label><input type="number" name="value" required min="1"></div>
-                <div class="field"><label>حداقل مبلغ خرید</label><input type="number" name="min_subtotal" value="0"></div>
-                <div class="field"><label>سقف استفاده (۰=نامحدود)</label><input type="number" name="usage_limit" value="0"></div>
-                <div class="field"><label>تاریخ انقضا</label><input type="date" name="expires_at"></div>
-                <button class="btn btn-primary">ایجاد</button>
-            </form>
+            </div>
+        </div>
+        <?php include __DIR__ . '/../partials/pagination.php'; ?>
+    </div>
+
+    <div class="pa-col-4">
+        <div class="pa-card pa-anim-slide-up pa-anim-delay-1">
+            <div class="pa-card-header"><h3>کد جدید</h3></div>
+            <div class="pa-card-body">
+                <form method="post" action="/admin/coupons" data-pa-validate-form>
+                    <?= Csrf::field() ?>
+                    <div class="pa-form-group">
+                        <label for="cp-code">کد تخفیف</label>
+                        <input id="cp-code" class="pa-input" type="text" name="code" data-pa-validate="required" data-pa-minlen="3" required>
+                        <div class="pa-form-feedback"></div>
+                    </div>
+                    <div class="pa-form-group">
+                        <label for="cp-type">نوع</label>
+                        <select id="cp-type" class="pa-select" name="type">
+                            <option value="fixed">مبلغ ثابت</option>
+                            <option value="percent">درصدی</option>
+                        </select>
+                    </div>
+                    <div class="pa-form-group">
+                        <label for="cp-value">مقدار</label>
+                        <input id="cp-value" class="pa-input" type="number" name="value" min="1" data-pa-validate="required" required>
+                    </div>
+                    <div class="pa-form-group">
+                        <label for="cp-min">حداقل مبلغ سبد</label>
+                        <input id="cp-min" class="pa-input" type="number" name="min_subtotal" value="0" min="0">
+                    </div>
+                    <div class="pa-form-group">
+                        <label for="cp-limit">سقف استفاده (۰ = نامحدود)</label>
+                        <input id="cp-limit" class="pa-input" type="number" name="usage_limit" value="0" min="0">
+                    </div>
+                    <div class="pa-form-group">
+                        <label for="cp-exp">تاریخ انقضا</label>
+                        <input id="cp-exp" class="pa-input" type="date" name="expires_at">
+                    </div>
+                    <button type="submit" class="pa-btn pa-btn-primary pa-btn-block" data-pa-icon="plus"> ایجاد کد</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
