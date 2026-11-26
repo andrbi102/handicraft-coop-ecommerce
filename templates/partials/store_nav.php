@@ -38,6 +38,7 @@ $active = static fn(string $route): bool => $path === $route || str_starts_with(
             <a href="/products" class="<?= $active('/products') || $active('/category') || $active('/product') ? 'is-active' : '' ?>">محصولات</a>
             <a href="/members" class="<?= $active('/members') || $active('/member') ? 'is-active' : '' ?>">نساجان</a>
             <a href="/about" class="<?= $active('/about') ? 'is-active' : '' ?>">درباره</a>
+            <a href="/track" class="<?= $active('/track') ? 'is-active' : '' ?>">پیگیری سفارش</a>
             <a href="/contact" class="<?= $active('/contact') ? 'is-active' : '' ?>">تماس</a>
         </nav>
 

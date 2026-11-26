@@ -32,6 +32,7 @@ use App\Controllers\Storefront\CheckoutController;
 use App\Controllers\Storefront\HomeController;
 use App\Controllers\Storefront\PageController;
 use App\Controllers\Storefront\ProductController;
+use App\Controllers\Storefront\TrackController;
 use App\Controllers\Storefront\WishlistController;
 use App\Core\Middleware;
 
@@ -66,6 +67,10 @@ return static function (Router $r, Container $c): void {
     $r->get('/wishlist', $action(WishlistController::class, 'index'));
     $r->post('/wishlist/add', $action(WishlistController::class, 'add'));
     $r->post('/wishlist/remove', $action(WishlistController::class, 'remove'));
+
+    // — پیگیری سفارش (عمومی) —
+    $r->get('/track', $action(TrackController::class, 'index'));
+    $r->post('/track', $action(TrackController::class, 'lookupAction'));
 
     $r->get('/checkout', $action(CheckoutController::class, 'index', [$auth]));
     $r->post('/checkout', $action(CheckoutController::class, 'place', [$auth]));
