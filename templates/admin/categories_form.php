@@ -1,32 +1,80 @@
 <?php
+
 declare(strict_types=1);
+
 /**
- * ویرایش دسته.
+ * فرم ویرایش دسته‌بندی + حذف — پوستهٔ PAdminLTE.
+ *
  * @package Coop\Templates\Admin
- * @version 0.1.0
+ * @version 0.2.0
  * @security-level admin
  */
+
+use App\Support\Form;
+
+/** @var array<string, mixed> $__data */
+
 $category = $__data['category'] ?? [];
 $categories = $__data['categories'] ?? [];
+$cid = (int) ($category['id'] ?? 0);
 ?>
-<div class="toolbar"><h2></h2><a href="/admin/categories" class="btn btn-outline btn-sm">← بازگشت</a></div>
-<div class="admin-card" style="max-width:560px">
-    <form action="/admin/categories/<?= (int) $category['id'] ?>" method="post">
-        <?= Csrf::field() ?>
-        <div class="field"><label>نام *</label><input type="text" name="name" required value="<?= View::e($category['name']) ?>"></div>
-        <div class="field"><label>دسته والد</label>
-            <select name="parent_id"><option value="0">— هیچ —</option>
-            <?php foreach ($categories as $c): if ((int) $c['id'] === (int) $category['id']) continue; ?>
-                <option value="<?= (int) $c['id'] ?>" <?= (int) ($category['parent_id'] ?? 0) === (int) $c['id'] ? 'selected' : '' ?>><?= View::e($c['name']) ?></option>
-            <?php endforeach; ?>
-            </select>
+<div class="pa-page-header pa-anim-slide-up">
+    <div>
+        <h1>ویرایش دسته‌بندی</h1>
+        <div class="pa-breadcrumb"><a href="/admin">پنل مدیریت</a><span class="pa-sep">›</span><a href="/admin/categories">دسته‌بندی</a><span class="pa-sep">›</span><span>ویرایش</span></div>
+    </div>
+    <a class="pa-btn pa-btn-outline pa-btn-sm" href="/admin/categories" data-pa-icon="arrow_right"> بازگشت</a>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col-6">
+        <div class="pa-card pa-anim-slide-up pa-anim-delay-1">
+            <div class="pa-card-header"><h3>مشخصات دسته</h3></div>
+            <div class="pa-card-body">
+                <form method="post" action="/admin/categories/<?= $cid ?>" data-pa-validate-form>
+                    <?= Csrf::field() ?>
+                    <div class="pa-form-group">
+                        <label for="c-name">نام *</label>
+                        <input id="c-name" class="pa-input" type="text" name="name" data-pa-validate="required" value="<?= Form::value($category, 'name') ?>" required>
+                        <div class="pa-form-feedback"></div>
+                    </div>
+                    <div class="pa-form-group">
+                        <label for="c-parent">دستهٔ والد</label>
+                        <select id="c-parent" class="pa-select" name="parent_id">
+                            <option value="0">— هیچ —</option>
+                            <?php foreach ($categories as $cat): ?>
+                                <?php if ((int) $cat['id'] === $cid) { continue; } ?>
+                                <option value="<?= (int) $cat['id'] ?>" <?= (int) $category['parent_id'] === (int) $cat['id'] ? 'selected' : '' ?>><?= View::e($cat['name']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="pa-form-group">
+                        <label for="c-sort">ترتیب</label>
+                        <input id="c-sort" class="pa-input" type="number" name="sort_order" value="<?= Form::value($category, 'sort_order', '0') ?>" min="0">
+                    </div>
+                    <div class="pa-form-group">
+                        <label for="c-desc">توضیح</label>
+                        <input id="c-desc" class="pa-input" type="text" name="description" value="<?= Form::value($category, 'description') ?>">
+                    </div>
+                    <div class="pa-d-flex pa-gap-2">
+                        <button type="submit" class="pa-btn pa-btn-primary" data-pa-icon="save"> ذخیره</button>
+                        <a class="pa-btn pa-btn-outline" href="/admin/categories">انصراف</a>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="field"><label>ترتیب</label><input type="number" name="sort_order" value="<?= (int) $category['sort_order'] ?>"></div>
-        <div class="field"><label>توضیح</label><input type="text" name="description" value="<?= View::e($category['description']) ?>"></div>
-        <button class="btn btn-primary">به‌روزرسانی</button>
-    </form>
-    <form action="/admin/categories/<?= (int) $category['id'] ?>/delete" method="post" class="mt-2" data-confirm="حذف این دسته؟">
-        <?= Csrf::field() ?>
-        <button class="btn btn-danger btn-sm">حذف دسته</button>
-    </form>
+    </div>
+
+    <div class="pa-col-6">
+        <div class="pa-card pa-anim-slide-up pa-anim-delay-2">
+            <div class="pa-card-header"><h3>منطقهٔ خطر</h3></div>
+            <div class="pa-card-body">
+                <p class="pa-text-muted pa-fs-sm pa-mb-2">حذف دسته فقط در صورت نداشتن محصول ممکن است.</p>
+                <form method="post" action="/admin/categories/<?= $cid ?>/delete" onsubmit="return confirm('حذف این دسته؟')">
+                    <?= Csrf::field() ?>
+                    <button type="submit" class="pa-btn pa-btn-danger pa-btn-block" data-pa-icon="trash"> حذف دسته</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

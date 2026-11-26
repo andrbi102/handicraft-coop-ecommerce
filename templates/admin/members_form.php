@@ -1,43 +1,96 @@
 <?php
+
 declare(strict_types=1);
+
 /**
- * فرم عضو تعاونی (ایجاد/ویرایش).
+ * فرم عضو تعاونی (ایجاد/ویرایش) — پوستهٔ PAdminLTE.
+ *
  * @package Coop\Templates\Admin
- * @version 0.1.0
+ * @version 0.2.0
  * @security-level admin
  */
+
+use App\Support\Form;
+
+/** @var array<string, mixed> $__data */
+
 $member = $__data['member'] ?? null;
-$isEdit = $member !== null;
-$action = $isEdit ? '/admin/members/' . (int) $member['id'] : '/admin/members';
 $money = $__data['money'];
+$isEdit = $member !== null;
+$mid = $isEdit ? (int) $member['id'] : 0;
+$action = $isEdit ? '/admin/members/' . $mid : '/admin/members';
+$title = $isEdit ? 'ویرایش عضو' : 'عضو جدید';
+$today = date('Y-m-d');
 ?>
-<div class="toolbar"><h2></h2><a href="/admin/members" class="btn btn-outline btn-sm">← بازگشت</a></div>
-<div class="admin-card">
-    <form action="<?= $action ?>" method="post">
-        <?= Csrf::field() ?>
-        <div class="form-grid">
-            <div class="field" style="grid-column:1/-1"><label>نام و نام خانوادگی *</label>
-                <input type="text" name="full_name" required value="<?= \App\Support\Form::value($member, 'full_name') ?>"></div>
-            <div class="field"><label>تخصص نساجی</label>
-                <input type="text" name="craft" value="<?= \App\Support\Form::value($member, 'craft') ?>" placeholder="مثلاً فرش‌بافی، گلیم، سوزن‌دوزی"></div>
-            <div class="field"><label>منطقه / روستا</label>
-                <input type="text" name="region" value="<?= \App\Support\Form::value($member, 'region') ?>"></div>
-            <div class="field"><label>تاریخ عضویت</label>
-                <input type="date" name="joined_at" value="<?= \App\Support\Form::value($member, 'joined_at', date('Y-m-d')) ?>"></div>
-            <div class="field"><label>سرمایه سهام (تومان)</label>
-                <input type="text" name="share_capital" inputmode="numeric" value="<?= $isEdit ? $money((int) $member['share_capital']) : '' ?>"></div>
-            <div class="field"><label>تلفن</label>
-                <input type="tel" name="phone" value="<?= \App\Support\Form::value($member, 'phone') ?>"></div>
-            <div class="field"><label>وضعیت</label>
-                <select name="status">
-                    <?php foreach (['active'=>'فعال','inactive'=>'غیرفعال'] as $k => $lbl): ?>
-                        <option value="<?= $k ?>" <?= $isEdit && $member['status'] === $k ? 'selected' : '' ?>><?= $lbl ?></option>
-                    <?php endforeach; ?>
-                </select>
+<div class="pa-page-header pa-anim-slide-up">
+    <div>
+        <h1><?= View::e($title) ?></h1>
+        <div class="pa-breadcrumb"><a href="/admin">پنل مدیریت</a><span class="pa-sep">›</span><a href="/admin/members">نساجان</a><span class="pa-sep">›</span><span><?= View::e($title) ?></span></div>
+    </div>
+    <a class="pa-btn pa-btn-outline pa-btn-sm" href="/admin/members" data-pa-icon="arrow_right"> بازگشت</a>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col-8">
+        <div class="pa-card pa-anim-slide-up pa-anim-delay-1">
+            <div class="pa-card-header"><h3>مشخصات عضو</h3></div>
+            <div class="pa-card-body">
+                <form method="post" action="<?= View::e($action) ?>" data-pa-validate-form>
+                    <?= Csrf::field() ?>
+                    <div class="pa-form-group">
+                        <label for="m-name">نام و نام خانوادگی *</label>
+                        <input id="m-name" class="pa-input" type="text" name="full_name" data-pa-validate="required" data-pa-minlen="3" value="<?= Form::value($member, 'full_name') ?>" required>
+                        <div class="pa-form-feedback"></div>
+                    </div>
+
+                    <div class="pa-form-row">
+                        <div class="pa-form-group">
+                            <label for="m-craft">تخصص نساجی</label>
+                            <input id="m-craft" class="pa-input" type="text" name="craft" placeholder="مثلاً فرش‌بافی، گلیم، سوزن‌دوزی" value="<?= Form::value($member, 'craft') ?>">
+                        </div>
+                        <div class="pa-form-group">
+                            <label for="m-region">منطقه / روستا</label>
+                            <input id="m-region" class="pa-input" type="text" name="region" value="<?= Form::value($member, 'region') ?>">
+                        </div>
+                    </div>
+
+                    <div class="pa-form-row">
+                        <div class="pa-form-group">
+                            <label for="m-joined">تاریخ عضویت</label>
+                            <input id="m-joined" class="pa-input" type="date" name="joined_at" value="<?= Form::value($member, 'joined_at', $today) ?>">
+                        </div>
+                        <div class="pa-form-group">
+                            <label for="m-share">سرمایه سهام (تومان)</label>
+                            <input id="m-share" class="pa-input" type="text" inputmode="numeric" name="share_capital" value="<?= $isEdit ? $money((int) $member['share_capital']) : '' ?>">
+                        </div>
+                    </div>
+
+                    <div class="pa-form-row">
+                        <div class="pa-form-group">
+                            <label for="m-phone">تلفن</label>
+                            <input id="m-phone" class="pa-input" type="tel" name="phone" value="<?= Form::value($member, 'phone') ?>">
+                        </div>
+                        <div class="pa-form-group">
+                            <label for="m-status">وضعیت</label>
+                            <select id="m-status" class="pa-select" name="status">
+                                <?php foreach (['active' => 'فعال', 'inactive' => 'غیرفعال'] as $k => $lbl): ?>
+                                    <option value="<?= View::e($k) ?>" <?= $isEdit && $member['status'] === $k ? 'selected' : '' ?>><?= View::e($lbl) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pa-form-group">
+                        <label for="m-bio">بیوگرافی</label>
+                        <textarea id="m-bio" class="pa-textarea" name="bio" rows="4"><?= Form::value($member, 'bio') ?></textarea>
+                    </div>
+
+                    <div class="pa-d-flex pa-gap-2">
+                        <button type="submit" class="pa-btn pa-btn-primary" data-pa-icon="save"> ذخیره</button>
+                        <a class="pa-btn pa-btn-outline" href="/admin/members">انصراف</a>
+                    </div>
+                </form>
             </div>
-            <div class="field" style="grid-column:1/-1"><label>بیوگرافی</label>
-                <textarea name="bio"><?= \App\Support\Form::value($member, 'bio') ?></textarea></div>
         </div>
-        <button class="btn btn-primary"><?= $isEdit ? 'به‌روزرسانی عضو' : 'افزودن عضو' ?></button>
-    </form>
+    </div>
 </div>
