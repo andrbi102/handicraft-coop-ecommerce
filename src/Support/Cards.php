@@ -41,6 +41,7 @@ final class Cards
         $pid = (int) $p['id'];
 
         $grad = self::GRADIENTS[crc32((string) $pid) % count(self::GRADIENTS)];
+        $csrfToken = \Csrf::token();
 
         // نشان موجودی
         if ($stock <= 0) {
@@ -67,6 +68,7 @@ final class Cards
             <h3 class="pa-product-name"><a href="/product/{$slug}">{$name}</a></h3>
             <div class="pa-product-price"><span class="pa-now">{$price}</span></div>
             <form action="/cart/add?id={$pid}" method="post">
+                <input type="hidden" name="_csrf" value="{$csrfToken}">
                 <input type="hidden" name="product_id" value="{$pid}">
                 <input type="hidden" name="quantity" value="1">
                 <button type="submit" class="pa-btn pa-btn-outline pa-btn-sm pa-btn-block" {$disabled} data-pa-icon="shopping_cart" data-pa-icon-size="14"> افزودن به سبد</button>

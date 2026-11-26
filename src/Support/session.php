@@ -11,6 +11,29 @@ declare(strict_types=1);
  */
 final class SecureSession
 {
+    /**
+     * آیا درخواست فعلی روی HTTPS است؟
+     *
+     * پرچم Secure کوکیِ نشست فقط روی HTTPS فعال می‌شود؛ روی HTTP (مثل
+     * توسعهٔ محلی localhost) مرورگر کوکیِ Secure را ذخیره نمی‌کرد و نشست
+     * بین GET (فرم) و POST (تأیید توکن) از دست می‌رفت — که خطای ۴۱۹ CSRF
+     * را می‌ساخت. با شرطی‌کردن، توسعه روی HTTP کار می‌کند و تولید روی HTTPS
+     * همچنان Secure می‌ماند.
+     */
+    private static function isHttps(): bool
+    {
+        $https = strtolower((string) ($_SERVER['HTTPS'] ?? ''));
+        if ($https !== '' && $https !== 'off') {
+            return true;
+        }
+        if (($_SERVER['SERVER_PORT'] ?? '') === '443') {
+            return true;
+        }
+        $proto = strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ''));
+
+        return $proto === 'https';
+    }
+
     public static function start(): void
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
@@ -20,8 +43,8 @@ final class SecureSession
             'lifetime' => 0,
             'path' => '/',
             'domain' => '',
-            'secure' => true,    // فقط HTTPS
-            'httponly' => true,  // دور از جاوااسکریپت
+            'secure' => self::isHttps(),   // فقط روی HTTPS — توسعهٔ HTTP هم کار کند
+            'httponly' => true,             // دور از جاوااسکریپت
             'samesite' => 'Strict',
         ]);
         session_start();
