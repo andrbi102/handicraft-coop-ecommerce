@@ -40,7 +40,7 @@ $chartData = $dailyRevenue !== []
     <div class="pa-col-6">
         <div class="pa-small-box pa-bg-success">
             <div class="pa-inner"><h3><?= $money($revenue) ?></h3><p>درآمد تأییدشده</p></div>
-            <span class="pa-icon-bg" data-pa-icon="coins" data-pa-icon-size="60"></span>
+            <span class="pa-icon-bg" data-pa-icon="wallet" data-pa-icon-size="60"></span>
             <a class="pa-footer-link" href="/admin/reports/sales">جزئیات فروش <span data-pa-icon="arrow_left"></span></a>
         </div>
     </div>

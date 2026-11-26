@@ -54,7 +54,7 @@ $roleLabel = match ($role) {
             <div class="pa-dropdown-divider"></div>
             <a class="pa-dropdown-item" href="/"><span data-pa-icon="globe"></span> نمایش فروشگاه</a>
             <div class="pa-dropdown-divider"></div>
-            <a class="pa-dropdown-item" href="/logout"><span data-pa-icon="log_out"></span> خروج از حساب</a>
+            <a class="pa-dropdown-item" href="/logout"><span data-pa-icon="logout"></span> خروج از حساب</a>
         </div>
     </div>
 </header>

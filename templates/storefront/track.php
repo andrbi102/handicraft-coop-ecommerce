@@ -48,7 +48,7 @@ $isTerminalBad = in_array($currentStatus, ['cancelled', 'refunded'], true);
                     <div class="pa-form-group">
                         <label for="t-number">شماره سفارش *</label>
                         <div class="pa-input-group">
-                            <span class="pa-input-addon" data-pa-icon="hash"></span>
+                            <span class="pa-input-addon" data-pa-icon="hashtag"></span>
                             <input id="t-number" class="pa-input" type="text" name="number" data-pa-validate="required" data-pa-minlen="4" value="<?= View::e((string) $number) ?>" required autofocus>
                         </div>
                         <div class="pa-form-feedback"></div>

@@ -92,7 +92,7 @@ $item = static function (string $label, string $route, string $icon, bool $activ
             <span class="pa-label">نمایش فروشگاه</span>
         </a>
         <a class="pa-sidebar-link" href="/logout">
-            <span data-pa-icon="log_out"></span>
+            <span data-pa-icon="logout"></span>
             <span class="pa-label">خروج از حساب</span>
         </a>
     </nav>

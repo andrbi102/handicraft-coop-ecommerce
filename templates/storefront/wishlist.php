@@ -51,7 +51,7 @@ $toFa = $__data['toFa'];
                     <form method="post" action="/wishlist/remove" style="position:absolute;inset-block-start:8px;inset-inline-end:8px" onsubmit="return confirm('از علاقه‌مندی‌ها حذف شود؟')">
                         <?= Csrf::field() ?>
                         <input type="hidden" name="product_id" value="<?= $pid ?>">
-                        <button type="submit" class="pa-icon-btn" style="background:rgba(0,0,0,.35);color:#fff" data-pa-icon="heart_off" data-pa-icon-size="18" aria-label="حذف از علاقه‌مندی‌ها"></button>
+                        <button type="submit" class="pa-icon-btn" style="background:rgba(0,0,0,.35);color:#fff" data-pa-icon="heart_alt" data-pa-icon-size="18" aria-label="حذف از علاقه‌مندی‌ها"></button>
                     </form>
                 </div>
                 <div class="pa-product-body">

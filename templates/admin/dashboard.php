@@ -61,7 +61,7 @@ $chartData = $dailyRevenue !== []
     <div class="pa-col-3">
         <div class="pa-small-box pa-bg-primary">
             <div class="pa-inner"><h3><?= $money((int) ($kpi['revenue'] ?? 0)) ?></h3><p>درآمد تأییدشده</p></div>
-            <span class="pa-icon-bg" data-pa-icon="coins" data-pa-icon-size="60"></span>
+            <span class="pa-icon-bg" data-pa-icon="wallet" data-pa-icon-size="60"></span>
             <a class="pa-footer-link" href="/admin/reports/sales">جزئیات فروش <span data-pa-icon="arrow_left"></span></a>
         </div>
     </div>
@@ -166,7 +166,7 @@ $chartData = $dailyRevenue !== []
             </div>
         </div>
         <div class="pa-info-box pa-mb-1">
-            <div class="pa-ib-icon pa-bg-warning" data-pa-icon="coins"></div>
+            <div class="pa-ib-icon pa-bg-warning" data-pa-icon="wallet"></div>
             <div class="pa-ib-body">
                 <p class="pa-ib-text">تسویه معلق</p>
                 <p class="pa-ib-number"><?= $money((int) ($kpi['pendingSettlements'] ?? 0)) ?></p>

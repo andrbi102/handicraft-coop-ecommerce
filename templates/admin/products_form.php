@@ -148,7 +148,7 @@ $title = $isEdit ? 'ویرایش محصول' : 'محصول جدید';
                         <input id="p-delta" class="pa-input" type="number" name="delta" value="0">
                         <div class="pa-hint">مثبت = افزودن، منفی = کسر</div>
                     </div>
-                    <button type="submit" class="pa-btn pa-btn-outline pa-btn-block" data-pa-icon="bolt"> اعمال</button>
+                    <button type="submit" class="pa-btn pa-btn-outline pa-btn-block" data-pa-icon="zap"> اعمال</button>
                 </form>
             </div>
         </div>
@@ -158,7 +158,7 @@ $title = $isEdit ? 'ویرایش محصول' : 'محصول جدید';
             <div class="pa-card-body">
                 <form method="post" action="/admin/products/<?= $pid ?>/delete" onsubmit="return confirm('این محصول بایگانی شود؟')">
                     <?= Csrf::field() ?>
-                    <button type="submit" class="pa-btn pa-btn-danger pa-btn-block" data-pa-icon="archive"> بایگانی محصول</button>
+                    <button type="submit" class="pa-btn pa-btn-danger pa-btn-block" data-pa-icon="archive_alt"> بایگانی محصول</button>
                 </form>
             </div>
         </div>
