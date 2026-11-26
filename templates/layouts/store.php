@@ -1,117 +1,65 @@
 <?php
+
 declare(strict_types=1);
+
 /**
- * لایوت فروشگاه.
- * @package Coop\Templates
- * @version 0.1.0
+ * چیدمان فروشگاه عمومی — پوستهٔ PAdminLTE (storefront skin).
+ *
+ * کروم (site-nav/site-footer) سمت سرور رندر می‌شود. سبد خرید سمت سرور است
+ * (SecureSession) پس pa-shop.js بارگذاری نمی‌شود — فقط pa-icons.js و
+ * padminlte.js برای آیکون‌ها/تم/دراپ‌داون.
+ *
+ * @package Coop\Views\Layouts
+ * @version 0.2.0
  * @security-level public
  */
+
+use App\Core\PersianDate;
+
 /** @var array<string, mixed> $__data */
-use App\Core\Config;
+/** @var string $content */
+
 $user = $__data['user'] ?? null;
 $flash = $__data['flash'] ?? [];
 $cartCount = (int) ($__data['cartCount'] ?? 0);
 $categories = $__data['categories'] ?? [];
-$siteName = $__data['siteName'] ?? 'تعاونی نساجی';
-$tagline = $__data['tagline'] ?? '';
+$siteName = (string) ($__data['siteName'] ?? 'تعاونی نساجی');
+$tagline = (string) ($__data['tagline'] ?? '');
 $settings = $__data['settings'] ?? [];
-$title = $__data['title'] ?? $siteName;
-$content = $__data['content'] ?? '';
-$money = $__data['money'] ?? null;
+$title = (string) ($__data['title'] ?? $siteName);
+$path = parse_url((string) ($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH) ?: '/';
+$path = (string) $path;
 ?>
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!doctype html>
+<html lang="fa" dir="rtl" data-pa-theme="light">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="<?= View::e($tagline) ?>">
     <title><?= View::e($title) ?> — <?= View::e($siteName) ?></title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/padminlte/padminlte.css">
 </head>
 <body>
-<header class="store-header">
-    <div class="container top">
-        <a href="/" class="brand">
-            <span class="logo">🧶</span>
-            <span><?= View::e($siteName) ?><small><?= View::e($tagline) ?></small></span>
-        </a>
-        <div class="search-box">
-            <form action="/products" method="get">
-                <input type="search" name="q" placeholder="جستجوی محصول، متریال، دسته…" value="<?= View::e($_GET['q'] ?? '') ?>">
-                <button type="submit">جستجو</button>
-            </form>
-        </div>
-        <nav class="store-nav">
-            <a href="/cart" class="cart-badge">سبد خرید<span class="count"><?= $toFa((string) $cartCount) ?></span></a>
-            <?php if ($user !== null): ?>
-                <a href="/account">حساب من</a>
-                <?php if (in_array($user['role'], ['manager','accountant','admin'], true)): ?>
-                    <a href="/admin">پنل مدیریت</a>
-                <?php endif; ?>
-                <a href="/logout">خروج</a>
-            <?php else: ?>
-                <a href="/login">ورود</a>
-                <a href="/register">ثبت‌نام</a>
+    <a class="pa-skip-link" href="#pa-main-content">پرش به محتوا</a>
+    <?php include __DIR__ . '/../partials/store_nav.php'; ?>
+
+    <main class="pa-site-main" id="pa-main-content">
+        <?php foreach (['success' => 'success', 'error' => 'danger', 'info' => 'info', 'warning' => 'warning'] as $key => $kind): ?>
+            <?php $msg = trim((string) ($flash[$key] ?? '')); ?>
+            <?php if ($msg !== ''): ?>
+                <div class="pa-alert pa-alert-<?= $kind ?>">
+                    <span data-pa-icon="<?= $kind === 'success' ? 'check_circle' : ($kind === 'danger' ? 'x_circle' : 'info') ?>"></span>
+                    <div class="pa-alert-body"><?= View::e($msg) ?></div>
+                    <button class="pa-close" aria-label="بستن">&times;</button>
+                </div>
             <?php endif; ?>
-        </nav>
-    </div>
-    <div class="cats-bar">
-        <div class="container">
-            <a href="/" class="<?= ($_SERVER['REQUEST_URI'] ?? '') === '/' ? 'active' : '' ?>">خانه</a>
-            <a href="/products">همه محصولات</a>
-            <?php foreach ($categories as $cat): ?>
-                <a href="/category/<?= rawurlencode((string) $cat['slug']) ?>"><?= View::e($cat['name']) ?></a>
-            <?php endforeach; ?>
-            <a href="/members">نساجان</a>
-            <a href="/about">درباره</a>
-            <a href="/contact">تماس</a>
-        </div>
-    </div>
-</header>
+        <?php endforeach; ?>
 
-<main class="container" style="padding-block: 20px;">
-    <?php foreach (['success','error','info'] as $fkey): ?>
-        <?php if (!empty($flash[$fkey])): ?>
-            <div class="flash <?= $fkey ?>"><?= View::e((string) $flash[$fkey]) ?></div>
-        <?php endif; ?>
-    <?php endforeach; ?>
-    <?= $content ?>
-</main>
+        <?= $content ?>
+    </main>
 
-<footer class="store-footer">
-    <div class="container">
-        <div class="grid">
-            <div>
-                <h4><?= View::e($siteName) ?></h4>
-                <p style="font-size:13px;opacity:.8"><?= View::e($tagline) ?></p>
-                <p style="font-size:13px;opacity:.8"><?= View::e($settings['contact_address'] ?? '') ?></p>
-            </div>
-            <div>
-                <h4>دسترسی سریع</h4>
-                <p><a href="/products">محصولات</a></p>
-                <p><a href="/members">نساجان تعاونی</a></p>
-                <p><a href="/about">درباره تعاونی</a></p>
-                <p><a href="/contact">تماس</a></p>
-            </div>
-            <div>
-                <h4>تماس</h4>
-                <p>تلفن: <?= View::e($settings['contact_phone'] ?? '—') ?></p>
-                <p>ایمیل: <?= View::e($settings['contact_email'] ?? '—') ?></p>
-                <?php if (!empty($settings['social_instagram'])): ?>
-                    <p>اینستاگرام: <?= View::e($settings['social_instagram']) ?></p>
-                <?php endif; ?>
-            </div>
-            <div>
-                <h4>پرداخت</h4>
-                <p style="font-size:13px;opacity:.8">شماره حساب: <?= View::e($settings['bank_account'] ?? '—') ?></p>
-                <p style="font-size:13px;opacity:.8">شبا: <?= View::e($settings['sheba'] ?? '—') ?></p>
-            </div>
-        </div>
-        <div class="copy">
-            © <?= $toFa(\App\Core\PersianDate::year()) ?> <?= View::e($siteName) ?> — تمامی حقوق محفوظ است. <?= View::e($settings['footer_text'] ?? '') ?>
-        </div>
-    </div>
-</footer>
-<script src="/assets/js/app.js"></script>
+    <?php include __DIR__ . '/../partials/store_footer.php'; ?>
+    <script src="/assets/padminlte/pa-icons.js"></script>
+    <script src="/assets/padminlte/padminlte.js"></script>
 </body>
 </html>
