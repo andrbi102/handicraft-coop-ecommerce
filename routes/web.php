@@ -93,6 +93,7 @@ return static function (Router $r, Container $c): void {
 
     // — صفحات عمومی —
     $r->get('/about', $action(PageController::class, 'about'));
+    $r->get('/faq', $action(PageController::class, 'faq'));
     $r->get('/contact', $action(PageController::class, 'contact'));
     $r->post('/contact', $action(PageController::class, 'contactPost'));
     $r->get('/members', $action(PageController::class, 'members'));

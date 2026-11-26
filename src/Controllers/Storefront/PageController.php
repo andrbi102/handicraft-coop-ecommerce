@@ -25,6 +25,11 @@ final class PageController extends StorefrontController
         $this->renderStore('storefront/about', ['title' => 'درباره تعاونی'], $ctx);
     }
 
+    public function faq(array $ctx): void
+    {
+        $this->renderStore('storefront/faq', ['title' => 'سوالات متداول'], $ctx);
+    }
+
     public function contact(array $ctx): void
     {
         $this->renderStore('storefront/contact', ['title' => 'تماس با ما'], $ctx);

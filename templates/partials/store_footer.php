@@ -33,6 +33,8 @@ $year = PersianDate::year();
                 <div class="pa-site-footer-links">
                     <a href="/products">محصولات</a>
                     <a href="/members">نساجان تعاونی</a>
+                    <a href="/track">پیگیری سفارش</a>
+                    <a href="/faq">سوالات متداول</a>
                     <a href="/about">درباره تعاونی</a>
                     <a href="/contact">تماس</a>
                 </div>
