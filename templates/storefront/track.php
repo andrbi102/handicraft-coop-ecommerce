@@ -82,20 +82,20 @@ $isTerminalBad = in_array($currentStatus, ['cancelled', 'refunded'], true);
                 <div class="pa-alert-body">این سفارش <?= View::e($statusLabels[$currentStatus] ?? $currentStatus) ?> است.</div>
             </div>
         <?php else: ?>
-            <div class="pa-stepper" style="display:flex;gap:0;align-items:flex-start;flex-wrap:wrap">
+            <div class="pa-stepper">
                 <?php foreach ($stages as $i => $stage): ?>
                     <?php
                     $done = $currentIdx !== false && $i <= $currentIdx;
                     $active = $i === $currentIdx;
                     ?>
-                    <div style="flex:1;min-width:80px;text-align:center;position:relative">
-                        <div style="margin:0 auto 8px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:<?= $done ? 'var(--pa-primary,#0d6efd)' : 'var(--pa-muted,#e9ecef)' ?>;color:#fff;font-weight:700">
+                    <div class="pa-stepper-step<?= $done ? ' is-done' : '' ?><?= $active ? ' is-active' : '' ?>">
+                        <div class="pa-stepper-dot">
                             <?= $done ? '<span data-pa-icon="check" data-pa-icon-size="16"></span>' : $toFa((string) ($i + 1)) ?>
                         </div>
-                        <div style="font-size:12px;color:<?= $active ? 'var(--pa-primary,#0d6efd)' : 'var(--pa-muted-fg,#6c757d)' ?>;font-weight:<?= $active ? '700' : '400' ?>"><?= View::e($statusLabels[$stage]) ?></div>
+                        <div class="pa-stepper-label"><?= View::e($statusLabels[$stage]) ?></div>
                     </div>
                     <?php if ($i < count($stages) - 1): ?>
-                        <div style="flex:0 0 24px;height:2px;background:<?= $currentIdx !== false && $i < $currentIdx ? 'var(--pa-primary,#0d6efd)' : 'var(--pa-muted,#e9ecef)' ?>;margin-top:15px"></div>
+                        <div class="pa-stepper-conn<?= $currentIdx !== false && $i < $currentIdx ? ' is-done' : '' ?>"></div>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>

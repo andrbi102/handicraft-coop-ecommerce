@@ -40,7 +40,8 @@ final class WishlistController extends StorefrontController
         } catch (RuntimeException $e) {
             $this->flash('error', $e->getMessage());
         }
-        $this->redirect('/wishlist');
+        // بازگشت به صفحهٔ مبدأ (مثلاً صفحهٔ محصول) اگر return داده شده
+        $this->redirectBack('/wishlist');
     }
 
     public function remove(array $ctx): void

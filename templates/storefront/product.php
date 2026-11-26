@@ -53,21 +53,24 @@ $grad = ['#6a4c93', '#1982c4'];
             <?php if ($member !== null): ?><dt class="pa-text-muted">سازنده:</dt><dd><a href="/member/<?= (int) $member['id'] ?>"><?= View::e((string) $member['full_name']) ?></a></dd><?php endif; ?>
         </dl>
 
-        <?php if ($stock > 0): ?>
-            <form method="post" action="/cart/add?id=<?= $pid ?>" class="pa-d-flex pa-gap-1 pa-align-center pa-mt-2" style="flex-wrap:wrap">
+        <div class="pa-product-actions">
+            <?php if ($stock > 0): ?>
+                <form method="post" action="/cart/add?id=<?= $pid ?>" class="pa-d-flex pa-gap-1 pa-align-center" style="flex-wrap:wrap">
+                    <?= Csrf::field() ?>
+                    <input type="hidden" name="product_id" value="<?= $pid ?>">
+                    <label class="pa-text-muted pa-fs-sm" for="qty">تعداد:</label>
+                    <input id="qty" class="pa-input" type="number" name="quantity" value="1" min="1" max="<?= $stock ?>" style="width:80px">
+                    <button type="submit" class="pa-btn pa-btn-primary pa-btn-lg" data-pa-icon="shopping_cart"> افزودن به سبد خرید</button>
+                </form>
+            <?php endif; ?>
+
+            <form method="post" action="/wishlist/add?id=<?= $pid ?>">
                 <?= Csrf::field() ?>
                 <input type="hidden" name="product_id" value="<?= $pid ?>">
-                <label class="pa-text-muted pa-fs-sm" for="qty">تعداد:</label>
-                <input id="qty" class="pa-input" type="number" name="quantity" value="1" min="1" max="<?= $stock ?>" style="width:80px">
-                <button type="submit" class="pa-btn pa-btn-primary pa-btn-lg" data-pa-icon="shopping_cart"> افزودن به سبد خرید</button>
+                <input type="hidden" name="return" value="/product/<?= $slug ?>">
+                <button type="submit" class="pa-btn pa-btn-outline pa-btn-sm" data-pa-icon="heart" data-pa-icon-size="14"> افزودن به علاقه‌مندی‌ها</button>
             </form>
-        <?php endif; ?>
-
-        <form method="post" action="/wishlist/add?id=<?= $pid ?>" class="pa-mt-1">
-            <?= Csrf::field() ?>
-            <input type="hidden" name="product_id" value="<?= $pid ?>">
-            <button type="submit" class="pa-btn pa-btn-outline pa-btn-sm" data-pa-icon="heart" data-pa-icon-size="14"> افزودن به علاقه‌مندی‌ها</button>
-        </form>
+        </div>
     </div>
 </div>
 

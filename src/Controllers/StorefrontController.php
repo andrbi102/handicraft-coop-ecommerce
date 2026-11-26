@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\Request;
 use App\Services\CartService;
 use App\Services\WishlistService;
 
@@ -46,5 +47,29 @@ abstract class StorefrontController extends Controller
     protected function wishlistCount(): int
     {
         return $this->c->get(WishlistService::class)->count();
+    }
+
+    /**
+     * مسیر بازگشت امن از پارامتر return (GET یا POST).
+     * فقط مسیرهای محلیِ نسبی پذیرفته می‌شوند تا از Open Redirect جلوگیری شود.
+     */
+    protected function intendedReturn(string $fallback = '/'): string
+    {
+        $raw = (string) (Request::query('return', '') ?: Request::post('return', ''));
+        $raw = trim($raw);
+        if ($raw === '' || !str_starts_with($raw, '/')) {
+            return $fallback;
+        }
+        // ردکردن // (protocol-relative) و scheme:// (open redirect)
+        if (preg_match('#^//#', $raw) || preg_match('#^[a-z][a-z0-9+.-]*://#i', $raw)) {
+            return $fallback;
+        }
+        return $raw;
+    }
+
+    /** redirect به مسیر بازگشت امن، یا fallback. */
+    protected function redirectBack(string $fallback): void
+    {
+        $this->redirect($this->intendedReturn($fallback));
     }
 }

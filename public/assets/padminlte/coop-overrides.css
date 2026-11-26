@@ -82,3 +82,68 @@
 html, body { overflow-x: hidden; }
 .pa-table-wrap { -webkit-overflow-scrolling: touch; }
 img, canvas, video, svg { max-width: 100%; height: auto; }
+
+/* ۸) استپر وضعیت سفارش (پیگیری) — ریسپانسیو، بدون استایل درون‌خطی */
+.pa-stepper {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0;
+}
+.pa-stepper-step {
+    flex: 1 1 80px;
+    min-width: 80px;
+    text-align: center;
+}
+.pa-stepper-dot {
+    width: 32px;
+    height: 32px;
+    margin: 0 auto 8px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 700;
+    background: var(--pa-muted, #e9ecef);
+}
+.pa-stepper-step.is-done .pa-stepper-dot { background: var(--pa-primary, #0d6efd); }
+.pa-stepper-label {
+    font-size: 12px;
+    color: var(--pa-muted-fg, #6c757d);
+}
+.pa-stepper-step.is-active .pa-stepper-label {
+    color: var(--pa-primary, #0d6efd);
+    font-weight: 700;
+}
+.pa-stepper-conn {
+    flex: 0 0 24px;
+    height: 2px;
+    margin-top: 15px;
+    background: var(--pa-muted, #e9ecef);
+}
+.pa-stepper-conn.is-done { background: var(--pa-primary, #0d6efd); }
+@media (max-width: 640px) {
+    .pa-stepper-conn { display: none; }
+    .pa-stepper-step { flex: 1 1 45%; }
+}
+
+/* ۹) ناحیهٔ اکشن صفحهٔ محصول — گروه‌بندی دکمه‌های سبد و علاقه‌مندی */
+.pa-product-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 0.75rem;
+}
+@media (min-width: 641px) {
+    .pa-product-actions { flex-direction: row; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
+    .pa-product-actions > form { margin: 0; }
+}
+
+/* ۱۰) هم‌ترازی دکمه‌های فوترِ کارت (ادامه خرید + تسویه) */
+.pa-cart-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
