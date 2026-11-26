@@ -137,7 +137,7 @@ $chartData = $dailyRevenue !== []
             </div>
             <div class="pa-card-body" style="padding:0">
                 <?php if ($lowStock === []): ?>
-                    <p class="pa-text-muted pa-text-center" style="padding:30px 0">همه محصولات موجودی کافی دارند ✅</p>
+                    <p class="pa-text-muted pa-text-center" style="padding:30px 0"><span data-pa-icon="check_circle" style="color:var(--pa-success);vertical-align:middle"></span> همه محصولات موجودی کافی دارند</p>
                 <?php else: ?>
                     <div class="pa-table-wrap">
                         <table class="pa-table pa-table-striped pa-table-sm">

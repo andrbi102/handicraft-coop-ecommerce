@@ -43,6 +43,7 @@ $theme = (string) ($settings['admin_theme'] ?? 'light');
     <meta name="robots" content="noindex, nofollow">
     <title><?= View::e($title) ?> — <?= View::e($siteName) ?></title>
     <link rel="stylesheet" href="/assets/padminlte/padminlte.css">
+    <link rel="stylesheet" href="/assets/padminlte/coop-overrides.css">
 </head>
 <body>
     <a class="pa-skip-link" href="#pa-main-content">پرش به محتوا</a>

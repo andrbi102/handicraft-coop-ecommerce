@@ -26,6 +26,7 @@ $brandMark = mb_substr($siteName, 0, 1, 'UTF-8') ?: 'ت';
     <meta name="robots" content="noindex, nofollow">
     <title><?= View::e($title) ?> — <?= View::e($siteName) ?></title>
     <link rel="stylesheet" href="/assets/padminlte/padminlte.css">
+    <link rel="stylesheet" href="/assets/padminlte/coop-overrides.css">
 </head>
 <body class="pa-auth-page">
     <div class="pa-auth-card">

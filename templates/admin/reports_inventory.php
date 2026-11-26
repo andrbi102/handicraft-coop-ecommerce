@@ -49,7 +49,7 @@ $toFa = $__data['toFa'];
                 <thead><tr><th>محصول</th><th>کد</th><th class="pa-text-end">موجودی</th><th class="pa-text-end">قیمت</th><th data-no-export></th></tr></thead>
                 <tbody>
                 <?php if ($lowStock === []): ?>
-                    <tr><td colspan="5" class="pa-text-center pa-text-muted" style="padding:24px">همه محصولات موجودی کافی دارند ✅</td></tr>
+                    <tr><td colspan="5" class="pa-text-center pa-text-muted" style="padding:24px"><span data-pa-icon="check_circle" style="color:var(--pa-success);vertical-align:middle"></span> همه محصولات موجودی کافی دارند</td></tr>
                 <?php else: ?>
                     <?php foreach ($lowStock as $p): ?>
                         <tr>

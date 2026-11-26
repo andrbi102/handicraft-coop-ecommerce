@@ -1,0 +1,84 @@
+/* coop-overrides.css — تکمیل‌های دسترس‌پذیری و ریسپانسیو روی PAdminLTE.
+   بارگذاری پس از padminlte.css. بر اساس چک‌لیست پیش‌تحویل ui-ux-pro-max-skill. */
+
+/* ۱) حالت فوکوس مشخص برای کیبورد (Focus states visible for keyboard nav) */
+:where(a, button, input, select, textarea, summary, [tabindex], .pa-btn, .pa-icon-btn, .pa-sidebar-link, .pa-dropdown-item, .pa-product-card, .pa-close):focus-visible {
+    outline: 3px solid var(--pa-primary, #0d6efd);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ۲) cursor: pointer روی همهٔ عناصر قابل‌کلیک */
+:where(button, summary, select, .pa-btn, .pa-icon-btn, .pa-sidebar-link, .pa-dropdown-toggle, .pa-user-widget, label.pa-form-check, [role="button"], a.pa-product-name, a[href]) {
+    cursor: pointer;
+}
+:where(input[type="text"], input[type="email"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"], input[type="date"], textarea, .pa-input, .pa-select, .pa-textarea) {
+    cursor: text;
+}
+:where(button[disabled], .pa-btn[disabled], button:disabled) {
+    cursor: not-allowed;
+}
+
+/* ۳) احترام به prefers-reduced-motion (animations/transitions خاموش) */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+    .pa-anim-slide-up, .pa-anim-slide-down, .pa-anim-zoom, .pa-anim-fade,
+    .pa-hover-lift, .pa-spinner, .pa-spinner-border {
+        animation: none !important;
+    }
+}
+
+/* ۴) skip-link فقط هنگام فوکوس کیبورد آشکار شود */
+.pa-skip-link {
+    position: absolute;
+    top: -100px;
+    inset-inline-start: 8px;
+    z-index: 9999;
+    padding: 8px 16px;
+    background: var(--pa-primary, #0d6efd);
+    color: #fff;
+    border-radius: 6px;
+    transition: top 0.15s ease;
+}
+.pa-skip-link:focus {
+    top: 8px;
+}
+
+/* ۵) ریسپانسیو — ستون‌ها روی صفحات باریک به یک‌ستونی فرو می‌شسته */
+@media (max-width: 640px) {
+    .pa-row {
+        flex-direction: column;
+    }
+    .pa-row > [class*="pa-col-"] {
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
+    }
+    .pa-form-row {
+        flex-direction: column;
+    }
+    .pa-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .pa-small-box .pa-inner h3 {
+        font-size: 1.4rem;
+    }
+}
+
+/* ۶) کنتراست متن کمکی روی پس‌زمینهٔ روشن */
+.pa-text-muted { color: #5a6470; }
+@media (prefers-color-scheme: dark), [data-pa-theme="dark"] .pa-text-muted {
+    color: #9aa3af;
+}
+
+/* ۷) جلوگیری از سرریز افقی در ۳۷۵px */
+html, body { overflow-x: hidden; }
+.pa-table-wrap { -webkit-overflow-scrolling: touch; }
+img, canvas, video, svg { max-width: 100%; height: auto; }
